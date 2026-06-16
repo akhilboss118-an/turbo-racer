@@ -1295,8 +1295,9 @@ function Navbar({ onOpenDownload }) {
 
 function HeroSection({ onOpenDownload }) {
   return (
-    <section className="section" id="hero" style={{ paddingTop: '140px' }}>
-      <div className="hero-grid">
+    <section className="section" id="hero" style={{ paddingTop: '140px', position: 'relative', backgroundImage: 'url(hero-bg.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(5,5,10,0.85) 0%, rgba(10,5,20,0.7) 50%, rgba(5,5,10,0.85) 100%)', zIndex: 0 }} />
+      <div className="hero-grid" style={{ position: 'relative', zIndex: 1 }}>
         <div>
           <div className="hero-badge">Now in Alpha v2.0</div>
           <h1 className="hero-headline">
