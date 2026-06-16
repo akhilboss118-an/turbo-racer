@@ -549,23 +549,64 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .section { padding: 60px 16px; }
-  .navbar { padding: 12px 16px; }
-  .nav-links { gap: 12px; }
-  .nav-link { font-size: 10px; letter-spacing: 1px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 40px; min-height: auto; }
-  .hero-headline { font-size: 36px; }
-  .hero-desc { font-size: 14px; }
-  .hud-stats { grid-template-columns: repeat(3, 1fr); max-width: 100%; }
+  .section { padding: 50px 16px; }
+  .navbar { padding: 10px 12px; }
+  .nav-logo { font-size: 16px; }
+  .nav-links { gap: 6px; }
+  .nav-link { font-size: 9px; letter-spacing: 1px; padding: 4px 6px; }
+  .btn-play { padding: 6px 14px; font-size: 9px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; min-height: auto; }
+  .hero-headline { font-size: 32px; }
+  .hero-desc { font-size: 13px; margin-bottom: 16px; }
+  .hud-stats { grid-template-columns: repeat(3, 1fr); max-width: 100%; gap: 8px; }
+  .hud-stat .value { font-size: 18px; }
+  .hud-stat .label { font-size: 8px; }
   .hero-right { align-items: stretch; }
-  .hud-panel { width: 100%; }
+  .hud-panel { width: 100%; padding: 16px; }
   .platform-grid { grid-template-columns: 1fr; }
-  .vehicle-grid { grid-template-columns: 1fr; }
+  .platform-card { padding: 24px; }
+  .vehicle-grid { grid-template-columns: 1fr; gap: 14px; }
+  .vehicle-card { padding: 20px; }
   .features-grid { grid-template-columns: 1fr; }
-  .features-grid .feature-card:nth-child(n) { grid-column: auto; grid-row: auto; min-height: 130px; }
-  .section-tag { font-size: 10px; }
+  .features-grid .feature-card:nth-child(n) { grid-column: auto; grid-row: auto; min-height: 120px; padding: 20px; }
+  .section-tag { font-size: 9px; letter-spacing: 2px; }
+  .section h2 { font-size: 28px !important; }
   .canvas-wrap::after { background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%); }
-  .stitch-panel { width: 300px; right: 0; }
+  .stitch-panel { width: 280px; right: 8px; bottom: 70px; }
+  .stitch-btn { width: 40px; height: 40px; font-size: 16px; bottom: 20px; right: 16px; }
+  .dl-modal { width: 95%; padding: 24px 20px; margin: 20px auto; max-height: 90vh; overflow-y: auto; }
+  .dl-meta { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .dl-reqs { padding: 14px 16px; }
+  .dl-header h2 { font-size: 18px; }
+  .dl-btn-big { padding: 14px 20px; font-size: 14px; }
+  .trailer-container { max-width: 100%; }
+  .trailer-section h2 { font-size: 28px !important; }
+  .lb-table { font-size: 11px; }
+  .lb-table th, .lb-table td { padding: 8px 6px; }
+  .lb-wrap { overflow-x: auto; }
+  .footer h2 { font-size: 28px; }
+  .footer p { font-size: 13px; }
+  .footer-socials { gap: 16px; flex-wrap: wrap; }
+  .modes-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .vehicle-grid + .vehicle-grid { margin-top: 20px; }
+}
+@media (max-width: 480px) {
+  .section { padding: 36px 12px; }
+  .nav-links { gap: 4px; }
+  .nav-link { font-size: 8px; letter-spacing: 0.5px; padding: 3px 4px; }
+  .btn-play { padding: 4px 10px; font-size: 8px; }
+  .hero-headline { font-size: 26px; }
+  .hero-badge { font-size: 8px; padding: 3px 10px; }
+  .hud-stats { gap: 6px; }
+  .hud-stat .value { font-size: 16px; }
+  .hud-panel { padding: 12px; }
+  .hud-panel h4 { font-size: 10px; }
+  .dl-modal { padding: 18px 14px; }
+  .dl-meta { grid-template-columns: 1fr; }
+  .platform-btn { width: 100%; justify-content: center; }
+  .footer-socials a { font-size: 11px; }
+  .lb-table { font-size: 10px; }
+  .lb-table th, .lb-table td { padding: 6px 4px; }
 }
 </style>
 </head>
@@ -1475,7 +1516,7 @@ function ModesSection() {
       <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 42, fontWeight: 800, fontStyle: 'italic', textTransform: 'uppercase', marginBottom: 40, lineHeight: 1.1 }}>
         HOW YOU RACE
       </h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+      <div className="modes-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
         {modes.map((m, i) => (
           <div key={i} className="glass-card" style={{ padding: 32, borderTop: `2px solid ${m.color}` }}>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, fontStyle: 'italic', textTransform: 'uppercase', marginBottom: 10 }}>{m.name}</h3>
