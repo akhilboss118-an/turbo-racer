@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Turbo Racer — Android APK Download</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,800;1,700;1,800&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0a0a0f; --surface: #12121e; --card: #1a1a28;
+  --text: #e5e2e1; --dim: rgba(229,226,225,0.45);
+  --primary: #FF4500; --secondary: #00E5FF; --accent: #FF00FF;
+  --green: #00FF88; --gold: #FFD700;
+  --font-display: 'Anybody', sans-serif;
+  --font-body: 'Hanken Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+body {
+  font-family: var(--font-body); background: var(--bg);
+  color: var(--text); min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(255,69,0,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(0,229,255,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 0%, rgba(255,0,255,0.03) 0%, transparent 50%);
+}
+.wrapper {
+  width: 100%; max-width: 560px; padding: 24px;
+}
+.card {
+  background: rgba(18,18,30,0.7);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(0,229,255,0.06);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  padding: 40px 36px;
+  animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--green);
+  border: 1px solid rgba(0,255,136,0.15);
+  padding: 4px 12px;
+  clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+  margin-bottom: 20px;
+}
+.badge::before {
+  content: ''; display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--green);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.logo {
+  font-family: var(--font-display); font-size: 14px;
+  font-weight: 400; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 4px;
+}
+.logo strong {
+  font-weight: 800; font-style: italic;
+  background: linear-gradient(135deg, #FF4500, #FF00FF);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+}
+h1 {
+  font-family: var(--font-display); font-size: 28px;
+  font-weight: 800; font-style: italic; text-transform: uppercase;
+  line-height: 1.1; margin-bottom: 8px;
+}
+h1 .highlight { color: var(--green); }
+.subtitle {
+  font-size: 14px; line-height: 1.6;
+  color: var(--dim); margin-bottom: 28px;
+}
+.platform-tag {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px;
+  background: rgba(0,255,136,0.04);
+  border: 1px solid rgba(0,255,136,0.1);
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  margin-bottom: 24px;
+}
+.platform-tag .icon {
+  width: 40px; height: 40px; border-radius: 8px;
+  background: linear-gradient(135deg, rgba(0,255,136,0.15), rgba(0,170,85,0.1));
+  border: 1px solid rgba(0,255,136,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.platform-tag .info { flex: 1; }
+.platform-tag .info .name { font-family: var(--font-display); font-size: 16px; font-weight: 700; font-style: italic; text-transform: uppercase; }
+.platform-tag .info .ver { font-family: var(--font-mono); font-size: 10px; color: var(--dim); letter-spacing: 1px; }
+.platform-tag .size {
+  font-family: var(--font-mono); font-size: 14px; font-weight: 500;
+  color: var(--green);
+}
+.meta-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px;
+}
+.meta-item {
+  padding: 10px 14px;
+  background: rgba(0,255,136,0.02);
+  border: 1px solid rgba(0,255,136,0.04);
+  clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+}
+.meta-item .lbl { font-family: var(--font-mono); font-size: 8px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; }
+.meta-item .val { font-family: var(--font-mono); font-size: 13px; color: var(--green); margin-top: 2px; }
+.reqs {
+  margin-bottom: 24px; padding: 18px 20px;
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(0,255,136,0.05);
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+}
+.reqs h4 {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px;
+  color: var(--green); text-transform: uppercase; margin-bottom: 8px;
+}
+.reqs ul { list-style: none; padding: 0; }
+.reqs ul li {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--dim); padding: 3px 0;
+  display: flex; align-items: center; gap: 8px;
+}
+.reqs ul li::before { content: '>'; color: var(--green); font-weight: 700; }
+.dl-section {
+  position: relative;
+}
+.btn-download {
+  width: 100%; padding: 18px;
+  font-family: var(--font-display); font-size: 18px;
+  font-weight: 700; font-style: italic; text-transform: uppercase;
+  letter-spacing: 2px; border: none; color: black; cursor: pointer;
+  background: linear-gradient(135deg, #00FF88, #00CC66);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  position: relative; overflow: hidden;
+}
+.btn-download:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 50px rgba(0,255,136,0.35), 0 0 100px rgba(0,255,136,0.1);
+}
+.btn-download:active { transform: translateY(-1px); }
+.btn-download::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+.btn-download:hover::after { transform: translateX(100%); }
+.btn-download:disabled {
+  opacity: 0.5; cursor: not-allowed; transform: none !important;
+  box-shadow: none !important;
+}
+.btn-download:disabled::after { display: none; }
+.progress-wrap { margin-top: 16px; }
+.progress-track {
+  height: 3px; background: rgba(255,255,255,0.04);
+  position: relative; overflow: hidden;
+}
+.progress-bar {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #00FF88, #00E5FF);
+  transition: width 0.4s ease;
+}
+.progress-status {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--dim); text-align: center; margin-top: 10px;
+  letter-spacing: 1px;
+}
+.done-msg {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--green); text-align: center; margin-top: 14px;
+  letter-spacing: 0.5px;
+}
+.error-msg {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--primary); text-align: center; margin-top: 14px;
+}
+.note {
+  font-family: var(--font-mono); font-size: 9px;
+  color: rgba(229,226,225,0.2); text-align: center;
+  margin-top: 16px; line-height: 1.6;
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--dim); text-decoration: none;
+  margin-top: 24px; letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--secondary); }
+
+@media (max-width: 480px) {
+  .card { padding: 28px 20px; }
+  h1 { font-size: 22px; }
+  .meta-grid { grid-template-columns: 1fr; }
+  .platform-tag { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="card">
+
+    <div class="badge">Mobile Ready</div>
+
+    <div class="logo"><strong>Turbo Racer</strong> &mdash; Download Center</div>
+    <h1><span class="highlight">Android</span> Mobile Edition</h1>
+    <p class="subtitle">
+      High-fidelity racing simulation optimized for touch &amp; tilt.
+      Cross-platform saves, 120Hz display support, and full game parity with PC.
+    </p>
+
+    <div class="platform-tag">
+      <div class="icon">&#x1F4F1;</div>
+      <div class="info">
+        <div class="name">Android APK</div>
+        <div class="ver">v1.9.5 Alpha &bull; arm64-v8a</div>
+      </div>
+      <div class="size">~5 MB</div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item"><div class="lbl">Version</div><div class="val">1.9.5 Alpha</div></div>
+      <div class="meta-item"><div class="lbl">API Level</div><div class="val">API 31+ (Android 12)</div></div>
+      <div class="meta-item"><div class="lbl">Architecture</div><div class="val">arm64-v8a</div></div>
+      <div class="meta-item"><div class="lbl">Build</div><div class="val">Mobile Simulator</div></div>
+    </div>
+
+    <div class="reqs">
+      <h4>System Requirements</h4>
+      <ul>
+        <li>Android 12.0 (API 31) or newer</li>
+        <li>Snapdragon 8 Gen 1 / Tensor G2+ / Dimensity 9000+</li>
+        <li>6 GB RAM minimum (8 GB recommended)</li>
+        <li>2 GB free storage space</li>
+        <li>90Hz / 120Hz display recommended</li>
+        <li>Stable broadband or 5G connection</li>
+      </ul>
+    </div>
+
+    <div class="dl-section">
+      <button class="btn-download" id="dlBtn">&#x1F4F1; Start Download</button>
+
+      <div class="progress-wrap" id="progressWrap" style="display:none;">
+        <div class="progress-track">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-status" id="progressStatus">Initializing...</div>
+      </div>
+
+      <div id="doneMsg" style="display:none;" class="done-msg">
+        &#x2713; Download started! Check your browser downloads.
+      </div>
+      <div id="errorMsg" style="display:none;" class="error-msg">
+        &#x26A0; Download blocked? Click <a href="#" id="fallbackLink" style="color:var(--secondary);">here</a> to try again.
+      </div>
+    </div>
+
+    <div class="note">
+      Google Drive may show a virus scan warning &mdash; this is standard for APK files.<br>
+      Click <strong>"Download anyway"</strong> to proceed.
+    </div>
+
+    <a class="back-link" href="turbo-racer.html">&larr; Back to Turbo Racer</a>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  const DL_URL = 'https://drive.usercontent.google.com/download?id=1l-BNfe9NIriYtJLme5ehz1q0GvWvcbzG&export=download&authuser=0';
+  const btn = document.getElementById('dlBtn');
+  const pw = document.getElementById('progressWrap');
+  const pb = document.getElementById('progressBar');
+  const ps = document.getElementById('progressStatus');
+  const dm = document.getElementById('doneMsg');
+  const em = document.getElementById('errorMsg');
+  const fl = document.getElementById('fallbackLink');
+
+  let started = false;
+
+  btn.addEventListener('click', function startDownload() {
+    if (started) return;
+    started = true;
+
+    btn.disabled = true;
+    btn.textContent = '\u23F3 Preparing...';
+    pw.style.display = 'block';
+
+    let phase = 0;
+    const phrases = [
+      'Securing download channel...',
+      'Connecting to Google Drive CDN...',
+      'Allocating storage...',
+      'Verifying package integrity...',
+      'Finalizing transfer...',
+      'Launching download...',
+    ];
+
+    let progress = 0;
+    const iv = setInterval(() => {
+      const increment = Math.random() * 5 + 2;
+      progress = Math.min(progress + increment, 100);
+      pb.style.width = progress + '%';
+
+      const idx = Math.min(Math.floor(progress / 17), phrases.length - 1);
+      ps.textContent = phrases[idx];
+
+      if (progress >= 100) {
+        clearInterval(iv);
+        btn.textContent = '\u2713 Download Started';
+        ps.textContent = 'Redirecting to Google Drive...';
+
+        setTimeout(() => {
+          try {
+            const win = window.open(DL_URL, '_blank');
+            if (!win || win.closed) {
+              em.style.display = 'block';
+              fl.href = DL_URL;
+              fl.target = '_blank';
+            }
+          } catch(e) {
+            em.style.display = 'block';
+            fl.href = DL_URL;
+            fl.target = '_blank';
+          }
+          dm.style.display = 'block';
+          btn.textContent = '\u{1F4F1} Download Again';
+          btn.disabled = false;
+          btn.onclick = () => { window.open(DL_URL, '_blank'); };
+          started = false;
+        }, 600);
+      }
+    }, 140);
+  });
+
+  // Show Google Drive directly as fallback
+  fl.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open(DL_URL, '_blank');
+  });
+
+  // Particle effect on hover
+  let particles = [];
+  btn.addEventListener('mouseenter', () => {
+    for (let i = 0; i < 16; i++) {
+      const p = document.createElement('div');
+      const size = 2 + Math.random() * 4;
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 40 + Math.random() * 60;
+      p.style.cssText = `
+        position: fixed; pointer-events: none;
+        width: ${size}px; height: ${size}px;
+        border-radius: 50%;
+        background: ${['#00FF88','#00E5FF','#FF4500'][Math.floor(Math.random() * 3)]};
+        opacity: 0.6;
+        z-index: 9999;
+        transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        top: ${btn.getBoundingClientRect().top + 30}px;
+        left: ${btn.getBoundingClientRect().left + btn.offsetWidth/2}px;
+      `;
+      document.body.appendChild(p);
+      particles.push(p);
+      requestAnimationFrame(() => {
+        p.style.transform = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
+        p.style.opacity = '0';
+      });
+      setTimeout(() => { if (p.parentNode) p.parentNode.removeChild(p); }, 700);
+    }
+    setTimeout(() => { particles = []; }, 700);
+  });
+})();
+</script>
+</body>
+</html>
