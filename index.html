@@ -641,7 +641,7 @@ const { useState, useEffect, useRef, useMemo, useCallback } = React;
 const { createRoot } = ReactDOM;
 
 // --- Download URLs ---
-const DL_WIN = 'https://drive.usercontent.google.com/download?id=14FnfGVAJGNkQe7_pH2p6hEAxJ1D7GPOq&export=download&authuser=0';
+const DL_WIN = 'https://github.com/akhilboss118-an/Turbo-Drive/releases/download/v1.0.0/Turbo.Drive.Setup.1.0.0.exe';
 const DL_ANDROID = 'https://drive.usercontent.google.com/download?id=1l-BNfe9NIriYtJLme5ehz1q0GvWvcbzG&export=download&authuser=0';
 
 // --- Zustand store ---
@@ -1319,6 +1319,9 @@ function HeroSection({ onOpenDownload }) {
               onClick={() => document.getElementById('platforms')?.scrollIntoView({ behavior: 'smooth' })}>
               DOWNLOAD
             </button>
+            <a href="https://turbo-racer-henna.vercel.app" target="_blank" rel="noopener noreferrer" style={{ padding: '12px 32px', fontSize: 13, fontWeight: 700, fontStyle: 'italic', fontFamily: 'Anybody, sans-serif', textTransform: 'uppercase', letterSpacing: 2, background: 'linear-gradient(135deg, #00E5FF, #0088CC)', border: 'none', color: 'white', cursor: 'pointer', clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))', display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+              LIVE
+            </a>
           </div>
           <div className="hud-stats">
             <div className="hud-stat"><div className="value">380</div><div className="label">TOP KM/H</div></div>
@@ -1565,12 +1568,13 @@ function Leaderboard() {
     { r: 2, n: 'NANDINI PRIYA', v: 'M4', s: '398', d: '12,910', cls: 'rank-orange' },
     { r: 3, n: 'PRAVALIKA', v: 'GT-R', s: '389', d: '11,750', cls: '' },
     { r: 4, n: 'HARIKA REDDY', v: 'SUPRA', s: '376', d: '10,620', cls: '' },
-    { r: 5, n: 'PAVAN', v: 'THAR', s: '185', d: '9,840', cls: '' },
-    { r: 6, n: 'NAVANEETH', v: 'NINJA H2', s: '403', d: '8,950', cls: '' },
-    { r: 7, n: 'SRIKAR', v: 'HAYABUSA', s: '397', d: '7,680', cls: '' },
-    { r: 8, n: 'SMRUDHI', v: 'DUKE 390', s: '179', d: '6,440', cls: '' },
-    { r: 9, n: 'CHARVI', v: 'ACTIVA', s: '85', d: '4,210', cls: '' },
-    { r: 10, n: 'AKHILA', v: 'R1', s: '392', d: '2,830', cls: '' },
+    { r: 5, n: 'LEELA RANI', v: 'DUKE 390', s: '180', d: '8,500', cls: '' },
+    { r: 6, n: 'PAVAN', v: 'THAR', s: '185', d: '9,840', cls: '' },
+    { r: 7, n: 'NAVANEETH', v: 'NINJA H2', s: '403', d: '8,950', cls: '' },
+    { r: 8, n: 'SRIKAR', v: 'HAYABUSA', s: '397', d: '7,680', cls: '' },
+    { r: 9, n: 'SMRUDHI', v: 'DUKE 390', s: '179', d: '6,440', cls: '' },
+    { r: 10, n: 'CHARVI', v: 'ACTIVA', s: '85', d: '4,210', cls: '' },
+    { r: 11, n: 'AKHILA', v: 'R1', s: '392', d: '2,830', cls: '' },
   ];
   return (
     <section className="section" id="leaderboard">
