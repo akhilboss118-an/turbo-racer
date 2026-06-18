@@ -1437,19 +1437,11 @@ function PlatformMatrix({ onOpenDownload }) {
             <span className="platform-badge">Touch Controls</span>
           </div>
           <div className="platform-info">
-            Mobile native app launches soon &bull; Try the web version on your phone!
+            v1.9.5 &bull; Cross-platform saves &bull; 850 MB &bull; Cloud sync
           </div>
-          <a href="https://turbo-racer-henna.vercel.app" target="_blank" rel="noopener noreferrer"
-            className="platform-btn android"
-            style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-            &#x25B6; Play Mobile Web
-          </a>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'var(--on-surface-dim)', textAlign: 'center', lineHeight: 1.6, marginTop: 4, borderTop: '1px solid rgba(0,229,255,0.06)', paddingTop: 10 }}>
-            Mobile version launches soon — try the mobile website version!
-          </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: '#FFD700', textAlign: 'center', marginTop: 8, lineHeight: 1.5, borderTop: '1px solid rgba(255,215,0,0.1)', paddingTop: 8 }}>
-            &#x26A0; CHANGE THE SETTINGS TO PEDALS IN THE SETTINGS OPTION FOR ANDROID WEB EXPERIENCE
-          </div>
+          <button className="platform-btn android" onClick={() => onOpenDownload('android')}>
+            &#x1F4F1; Download APK
+          </button>
         </div>
       </div>
     </section>
