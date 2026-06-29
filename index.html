@@ -294,7 +294,7 @@ body {
 .color-dot:hover, .color-dot.active { border-color: white; transform: scale(1.2); }
 
 /* Platform Matrix */
-.platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.platform-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
 .platform-card {
   padding: 36px; position: relative; overflow: hidden;
   transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -340,6 +340,8 @@ body {
 .platform-btn.win:hover { box-shadow: 0 0 30px rgba(0,229,255,0.5); }
 .platform-btn.android { background: linear-gradient(135deg, #00FF88, #00AA55); }
 .platform-btn.android:hover { box-shadow: 0 0 30px rgba(0,255,136,0.5); }
+.platform-btn.free { background: linear-gradient(135deg, #FF4500, #FF00FF); }
+.platform-btn.free:hover { box-shadow: 0 0 30px rgba(255,69,0,0.5); }
 
 /* Vehicle cards */
 .vehicle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -1413,6 +1415,15 @@ function PlatformMatrix({ onOpenDownload }) {
   return (
     <section className="section" id="platforms">
       <div className="section-tag">Platform Matrix</div>
+      <div style={{
+        background: 'linear-gradient(135deg, rgba(255,69,0,0.12), rgba(255,0,255,0.12))',
+        border: '1px solid rgba(255,69,0,0.25)',
+        borderRadius: 8, padding: '12px 20px', marginBottom: 20,
+        fontFamily: 'var(--font-mono)', fontSize: 12, color: '#FFD700',
+        textAlign: 'center',
+      }}>
+        Kindly don't login through Google when trying in free mode. Use guest mode for experience and login through Google only in mobile app or desktop app.
+      </div>
       <h2 style={{
         fontFamily: 'var(--font-display)', fontSize: 42, fontWeight: 800,
         fontStyle: 'italic', textTransform: 'uppercase', marginBottom: 40,
@@ -1456,6 +1467,24 @@ function PlatformMatrix({ onOpenDownload }) {
           <button className="platform-btn android" onClick={() => onOpenDownload('android')}>
             &#x1F4F1; Download APK
           </button>
+        </div>
+        <div className="glass-card platform-card"
+          onMouseEnter={() => { setHoverInner('free'); setGlobHover('free'); }}
+          onMouseLeave={() => { setHoverInner(null); setGlobHover(null); }}
+          style={{ borderColor: hover === 'free' ? 'rgba(255,69,0,0.3)' : undefined }}
+        >
+          <h3 style={{ color: '#FF4500' }}>Play for Free (Test)</h3>
+          <div>
+            <span className="platform-badge">Instant Play</span>
+            <span className="platform-badge">No Download</span>
+            <span className="platform-badge">Browser</span>
+          </div>
+          <div className="platform-info">
+            Try instantly in your browser &bull; No install needed &bull; Cross-save ready
+          </div>
+          <a className="platform-btn free" href="https://turbo-drive-racing.vercel.app/" target="_blank" rel="noopener noreferrer">
+            &#x1F3AE; Play for Free
+          </a>
         </div>
       </div>
     </section>
