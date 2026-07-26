@@ -4329,10 +4329,10 @@ function switchCar(index) {
   } else {
     selectedBike = index;
     if (index === 0) buildFromModel('ninja');
-    else if (index === 1) buildBike('duke');
+    else if (index === 1) buildFromModel('jawa');
     else if (index === 2) buildFromModel('bullet');
     else if (index === 3) buildFromModel('haya');
-    else if (index === 4) buildBike('r1');
+    else if (index === 4) buildFromModel('racing_bike');
     else if (index === 5) buildFromModel('activa');
   }
   if (soundReady) { resumeAudio(); startEngine(); }
@@ -4351,8 +4351,10 @@ const MODEL_DEFS = {
   lambo:     { path:'assets/lambo_murcielago.glb',   scale:0.35, rotY:0 },
   testarossa:{ path:'assets/ferrari_testarossa.glb', scale:1.0, rotY:0 },
   ninja:     { path:'assets/ninja_h2r.glb',          scale:1.0, rotY:Math.PI/2 },
+  jawa:      { path:'assets/jawa.glb',               scale:1.0, rotY:0 },
   bullet:    { path:'assets/bullet_350.glb',         scale:1.0, rotY:0 },
   haya:      { path:'assets/hayabusa.glb',           scale:1.0, rotY:0 },
+  racing_bike:{ path:'assets/racing_bike.glb',       scale:1.0, rotY:0 },
   activa:    { path:'assets/activa.glb',             scale:1.0, rotY:3*Math.PI/2 }
 };
 function preloadModel(key) {
@@ -5002,7 +5004,7 @@ function updateDashboard() {
   const wetLabels = {sunny:'Sunny', cloudy:'Cloudy', rain:'Rain', heavyRain:'Heavy', fog:'Fog', storm:'Storm'};
   const vehNames = vehicleType === 'car'
     ? ['911 TURBO', 'M4', 'GT-R', 'SUPRA', 'AVENTADOR', 'FERRARI 488']
-    : ['NINJA H2', 'DUKE 390', 'BULLET 350', 'HAYABUSA', 'R1', 'ACTIVA'];
+    ? ['NINJA H2', 'JAWA', 'BULLET 350', 'HAYABUSA', 'RACING BIKE', 'ACTIVA'];
   const vehIdx = vehicleType === 'car' ? selectedCar : selectedBike;
   document.getElementById('dash-scenary-val').textContent = scenLabels[scenery] || 'Highway';
   document.getElementById('dash-difficulty-val').textContent = diffLabels[difficulty] || 'Normal';
@@ -5649,10 +5651,10 @@ const VEHICLE_STATS = {
   ],
   bike: [
     { speed:100, accel:100, handling:80, nitro:100, maxSpeed:75, accelRate:24, name:'Ninja H2' },
-    { speed:70, accel:72, handling:92, nitro:42, maxSpeed:44, accelRate:16, name:'Duke 390' },
+    { speed:65, accel:68, handling:82, nitro:38, maxSpeed:40, accelRate:15, name:'Jawa' },
     { speed:52, accel:50, handling:62, nitro:32, maxSpeed:34, accelRate:11, name:'Bullet 350' },
     { speed:100, accel:82, handling:72, nitro:72, maxSpeed:65, accelRate:18, name:'Hayabusa' },
-    { speed:92, accel:92, handling:90, nitro:82, maxSpeed:60, accelRate:20, name:'YZF-R1' },
+    { speed:90, accel:88, handling:88, nitro:78, maxSpeed:58, accelRate:19, name:'Racing Bike' },
     { speed:32, accel:42, handling:42, nitro:22, maxSpeed:22, accelRate:8, name:'Activa' }
   ]
 };
@@ -5801,7 +5803,7 @@ function hideVehicleDashboard() {
 function updateVDDisplay() {
   const names = vehicleType === 'car'
     ? ['911 TURBO', 'M4', 'GT-R', 'SUPRA', 'AVENTADOR', 'FERRARI 488']
-    : ['NINJA H2', 'DUKE 390', 'BULLET 350', 'HAYABUSA', 'R1', 'ACTIVA'];
+    : ['NINJA H2', 'JAWA', 'BULLET 350', 'HAYABUSA', 'RACING BIKE', 'ACTIVA'];
   const idx = vehicleType === 'car' ? selectedCar : selectedBike;
   const stats = getVehicleStats();
   document.getElementById('vd-name').textContent = names[idx];
@@ -6181,10 +6183,10 @@ const ENG = {
   ],
   bike: [
     { wave:'sawtooth', idle:92,redline:310,sub:0.08,noise:0.05,filt:600,whine:2.0 },  // Ninja H2 - I4 + supercharger
-    { wave:'square',   idle:42,redline:145,sub:0.35,noise:0.22,filt:160,whine:0 },    // Duke 390 - single thump
+    { wave:'square',   idle:38,redline:125,sub:0.4,noise:0.25,filt:140,whine:0 },     // Jawa - classic single
     { wave:'square',   idle:30,redline:92,sub:0.5,noise:0.32,filt:95,whine:0 },       // Bullet 350 - deep single
     { wave:'sawtooth', idle:80,redline:270,sub:0.12,noise:0.08,filt:420,whine:0 },    // Hayabusa - I4 screamer
-    { wave:'triangle', idle:88,redline:295,sub:0.08,noise:0.06,filt:550,whine:0.8 },  // R1 - crossplane unique
+    { wave:'sawtooth', idle:85,redline:290,sub:0.1,noise:0.07,filt:500,whine:1.0 },   // Racing Bike - sport twin
     { wave:'triangle', idle:26,redline:72,sub:0.06,noise:0.03,filt:85,whine:0 }       // Activa - small putt
   ]
 };
