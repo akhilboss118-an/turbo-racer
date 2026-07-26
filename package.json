@@ -1,0 +1,8 @@
+{
+  "name": "turbo-drive",
+  "version": "1.2.0",
+  "description": "Turbo Drive - 3D Racing Game",
+  "main": "electron/main.cjs",
+  "author": "",
+  "license": "ISC"
+}
