@@ -857,6 +857,18 @@ const _origNitro = isNitro;
 isNitro = function() { return _origNitro() || (ctrlMode === 'pedals' ? touchNitro : false) };
 const _origBrake = isBrake;
 isBrake = function() { return _origBrake() || (ctrlMode === 'pedals' ? touchPedalBrake : false) };
+// ============================================================
+// RACE STATE
+// ============================================================
+let raceState = 'menu';
+let raceStarted = false;
+let raceFinished = false;
+let countdownValue = 3;
+let paused = false;
+let frameCount = 0;
+let fpsTimer = 0;
+let fpsValue = 60;
+
 // Apply a saved control mode at startup
 function applyCtrlMode(mode) {
   ctrlMode = mode;
@@ -4889,17 +4901,6 @@ function win() {
   triggerCloudLB();
 }
 
-// ============================================================
-// RACE STATE
-// ============================================================
-let raceState = 'menu';
-let raceStarted = false;
-let raceFinished = false;
-let countdownValue = 3;
-let paused = false;
-let frameCount = 0;
-let fpsTimer = 0;
-let fpsValue = 60;
 let username = localStorage.getItem('turboUser') || '';
 let gender = localStorage.getItem('turboGender') || 'male';
 let userScoreSaved = false;
