@@ -4345,15 +4345,15 @@ switchCar(0);
 const modelCache = {};
 const modelLoading = {};
 const MODEL_DEFS = {
-  bmw_m4:    { path:'assets/bmw_m4.glb',            scale:2.8, rotY:Math.PI },
-  bmw_gtr:   { path:'assets/bmw_gtr.glb',           scale:2.8, rotY:Math.PI },
-  supra:     { path:'assets/toyota_supra.glb',       scale:2.8, rotY:Math.PI },
-  lambo:     { path:'assets/lambo_murcielago.glb',   scale:2.8, rotY:Math.PI },
-  testarossa:{ path:'assets/ferrari_testarossa.glb', scale:2.8, rotY:Math.PI },
-  ninja:     { path:'assets/ninja_h2r.glb',          scale:2.8, rotY:Math.PI },
-  bullet:    { path:'assets/bullet_350.glb',         scale:2.8, rotY:Math.PI },
-  haya:      { path:'assets/hayabusa.glb',           scale:2.8, rotY:Math.PI },
-  activa:    { path:'assets/activa.glb',             scale:2.8, rotY:Math.PI }
+  bmw_m4:    { path:'assets/bmw_m4.glb',            scale:0.5, rotY:0 },
+  bmw_gtr:   { path:'assets/bmw_gtr.glb',           scale:0.5, rotY:0 },
+  supra:     { path:'assets/toyota_supra.glb',       scale:0.5, rotY:0 },
+  lambo:     { path:'assets/lambo_murcielago.glb',   scale:0.5, rotY:0 },
+  testarossa:{ path:'assets/ferrari_testarossa.glb', scale:0.5, rotY:0 },
+  ninja:     { path:'assets/ninja_h2r.glb',          scale:0.5, rotY:0 },
+  bullet:    { path:'assets/bullet_350.glb',         scale:0.5, rotY:0 },
+  haya:      { path:'assets/hayabusa.glb',           scale:0.5, rotY:0 },
+  activa:    { path:'assets/activa.glb',             scale:0.5, rotY:0 }
 };
 function preloadModel(key) {
   if (modelCache[key] || modelLoading[key]) return;
