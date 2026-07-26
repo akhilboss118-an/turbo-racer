@@ -4321,33 +4321,50 @@ function switchCar(index) {
   if (vehicleType === 'car') {
     selectedCar = index;
     if (index === 0) buildPorsche();
-    else if (index === 1) buildBMW();
-    else if (index === 2) buildGT();
-    else if (index === 3) buildSupra();
-    else if (index === 4) buildAventador();
+    else if (index === 1) buildFromModel('bmw_m4');
+    else if (index === 2) buildFromModel('bmw_gtr');
+    else if (index === 3) buildFromModel('supra');
+    else if (index === 4) buildFromModel('lambo');
     else if (index === 5) buildThar();
-    else if (index === 6) buildFerrariGLTF();
+    else if (index === 6) buildFromModel('testarossa');
   } else {
     selectedBike = index;
-    const styles = ['ninja','duke','bullet','haya','r1','activa'];
-    buildBike(styles[index] || 'ninja');
+    if (index === 0) buildFromModel('ninja');
+    else if (index === 1) buildBike('duke');
+    else if (index === 2) buildFromModel('bullet');
+    else if (index === 3) buildFromModel('haya');
+    else if (index === 4) buildBike('r1');
+    else if (index === 5) buildFromModel('activa');
   }
   if (soundReady) { resumeAudio(); startEngine(); }
 }
 let soundReady = false;
 switchCar(0);
 
-// Ferrari GLTF model preloader
-let ferrariModelCache = null;
-let ferrariLoading = false;
-function preloadFerrari() {
-  if (ferrariModelCache || ferrariLoading) return;
-  ferrariLoading = true;
+// GLB model system - generic loader for multiple models
+const modelCache = {};
+const modelLoading = {};
+const MODEL_DEFS = {
+  bmw_m4:    { path:'assets/bmw_m4.glb',            scale:2.8, rotY:Math.PI },
+  bmw_gtr:   { path:'assets/bmw_gtr.glb',           scale:2.8, rotY:Math.PI },
+  supra:     { path:'assets/toyota_supra.glb',       scale:2.8, rotY:Math.PI },
+  lambo:     { path:'assets/lambo_murcielago.glb',   scale:2.8, rotY:Math.PI },
+  testarossa:{ path:'assets/ferrari_testarossa.glb', scale:2.8, rotY:Math.PI },
+  ninja:     { path:'assets/ninja_h2r.glb',          scale:2.8, rotY:Math.PI },
+  bullet:    { path:'assets/bullet_350.glb',         scale:2.8, rotY:Math.PI },
+  haya:      { path:'assets/hayabusa.glb',           scale:2.8, rotY:Math.PI },
+  activa:    { path:'assets/activa.glb',             scale:2.8, rotY:Math.PI }
+};
+function preloadModel(key) {
+  if (modelCache[key] || modelLoading[key]) return;
+  const def = MODEL_DEFS[key];
+  if (!def) return;
+  modelLoading[key] = true;
   const loader = new THREE.GLTFLoader();
   const dracoLoader = new THREE.DRACOLoader();
   dracoLoader.setDecoderPath('js/libs/draco/gltf/');
   loader.setDRACOLoader(dracoLoader);
-  loader.load('assets/ferrari.glb', function(gltf) {
+  loader.load(def.path, function(gltf) {
     const model = gltf.scene;
     model.traverse(function(child) {
       if (child.isMesh) {
@@ -4358,34 +4375,37 @@ function preloadFerrari() {
         child.receiveShadow = true;
       }
     });
-    model.scale.set(2.8, 2.8, 2.8);
-    model.position.set(0, 0, 0);
-    ferrariModelCache = model;
-    ferrariLoading = false;
-    if (selectedCar === 6 && vehicleType === 'car' && carGroup.children.length === 0) {
-      buildFerrariGLTF();
-    }
+    modelCache[key] = model;
+    modelLoading[key] = false;
   }, undefined, function(err) {
-    console.warn('Ferrari model load failed:', err);
-    ferrariLoading = false;
+    console.warn('Model load failed:', def.path, err);
+    modelLoading[key] = false;
   });
 }
-function buildFerrariGLTF() {
+function buildFromModel(key) {
   while (carGroup.children.length) {
     const c = carGroup.children[0];
     carGroup.remove(c);
     if (c.geometry) c.geometry.dispose();
     if (c.material) c.material.dispose();
   }
-  if (ferrariModelCache) {
-    const clone = ferrariModelCache.clone(true);
+  const def = MODEL_DEFS[key];
+  if (modelCache[key]) {
+    const clone = modelCache[key].clone(true);
+    clone.scale.set(def.scale, def.scale, def.scale);
+    clone.rotation.y = def.rotY;
     carGroup.add(clone);
   } else {
-    const bodyMat = new THREE.MeshStandardMaterial({ color: 0xff2800, metalness: 0.5, roughness: 0.3, envMap: envMap, envMapIntensity: 1 });
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0xff2800, metalness: 0.5, roughness: 0.3, envMap, envMapIntensity: 1 });
     const body = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.3, 1.6), bodyMat);
     body.position.y = 0.25;
     carGroup.add(body);
-    if (!ferrariLoading) preloadFerrari();
+    if (!modelLoading[key]) preloadModel(key);
+  }
+}
+function preloadAllModels() {
+  for (const key of Object.keys(MODEL_DEFS)) {
+    try { preloadModel(key); } catch(e) { console.warn('preload err for', key, e); }
   }
 }
 
@@ -6512,7 +6532,7 @@ function init() {
   // Cancel loading fallback
   if (window.__loadingFallback) { clearTimeout(window.__loadingFallback); window.__loadingFallback = null; }
   try { initCoins(); } catch(e) { console.warn('initCoins err:', e); }
-  try { preloadFerrari(); } catch(e) { console.warn('preloadFerrari err:', e); }
+  try { preloadAllModels(); } catch(e) { console.warn('preloadAllModels err:', e); }
   try { initStartModal(); } catch(e) { console.warn('initStartModal err:', e); }
   try { initDashboardButtons(); } catch(e) { console.warn('initDashboardButtons err:', e); }
   loadingFill.style.width = '100%';
