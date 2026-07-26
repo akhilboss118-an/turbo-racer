@@ -5004,7 +5004,7 @@ function updateDashboard() {
   const wetLabels = {sunny:'Sunny', cloudy:'Cloudy', rain:'Rain', heavyRain:'Heavy', fog:'Fog', storm:'Storm'};
   const vehNames = vehicleType === 'car'
     ? ['911 TURBO', 'M4', 'GT-R', 'SUPRA', 'AVENTADOR', 'FERRARI 488']
-    ? ['NINJA H2', 'JAWA', 'BULLET 350', 'HAYABUSA', 'RACING BIKE', 'ACTIVA'];
+    : ['NINJA H2', 'JAWA', 'BULLET 350', 'HAYABUSA', 'RACING BIKE', 'ACTIVA'];
   const vehIdx = vehicleType === 'car' ? selectedCar : selectedBike;
   document.getElementById('dash-scenary-val').textContent = scenLabels[scenery] || 'Highway';
   document.getElementById('dash-difficulty-val').textContent = diffLabels[difficulty] || 'Normal';
