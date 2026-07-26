@@ -4375,6 +4375,14 @@ function preloadModel(key) {
         child.receiveShadow = true;
       }
     });
+    const box = new THREE.Box3().setFromObject(model);
+    const center = box.getCenter(new THREE.Vector3());
+    const ox = -center.x, oy = -box.min.y, oz = -center.z;
+    model.traverse(function(child) {
+      if (child.isMesh && child.geometry) {
+        child.geometry.translate(ox, oy, oz);
+      }
+    });
     modelCache[key] = model;
     modelLoading[key] = false;
   }, undefined, function(err) {
