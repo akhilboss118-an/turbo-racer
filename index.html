@@ -4325,8 +4325,7 @@ function switchCar(index) {
     else if (index === 2) buildFromModel('bmw_gtr');
     else if (index === 3) buildFromModel('supra');
     else if (index === 4) buildFromModel('lambo');
-    else if (index === 5) buildThar();
-    else if (index === 6) buildFromModel('testarossa');
+    else if (index === 5) buildFromModel('testarossa');
   } else {
     selectedBike = index;
     if (index === 0) buildFromModel('ninja');
@@ -4346,14 +4345,14 @@ const modelCache = {};
 const modelLoading = {};
 const MODEL_DEFS = {
   bmw_m4:    { path:'assets/bmw_m4.glb',            scale:1.0, rotY:0 },
-  bmw_gtr:   { path:'assets/bmw_gtr.glb',           scale:1.0, rotY:0 },
+  bmw_gtr:   { path:'assets/bmw_gtr.glb',           scale:1.0, rotY:Math.PI/2 },
   supra:     { path:'assets/toyota_supra.glb',       scale:1.0, rotY:0 },
-  lambo:     { path:'assets/lambo_murcielago.glb',   scale:1.0, rotY:0 },
+  lambo:     { path:'assets/lambo_murcielago.glb',   scale:0.5, rotY:0 },
   testarossa:{ path:'assets/ferrari_testarossa.glb', scale:1.0, rotY:0 },
-  ninja:     { path:'assets/ninja_h2r.glb',          scale:1.0, rotY:0 },
+  ninja:     { path:'assets/ninja_h2r.glb',          scale:1.0, rotY:Math.PI/2 },
   bullet:    { path:'assets/bullet_350.glb',         scale:1.0, rotY:0 },
   haya:      { path:'assets/hayabusa.glb',           scale:1.0, rotY:0 },
-  activa:    { path:'assets/activa.glb',             scale:1.0, rotY:0 }
+  activa:    { path:'assets/activa.glb',             scale:1.0, rotY:Math.PI/2 }
 };
 function preloadModel(key) {
   if (modelCache[key] || modelLoading[key]) return;
@@ -4376,18 +4375,8 @@ function preloadModel(key) {
       }
     });
     const box = new THREE.Box3().setFromObject(model);
-    const center = box.getCenter(new THREE.Vector3());
-    const ox = -center.x, oy = -box.min.y, oz = -center.z;
-    model.traverse(function(child) {
-      if (child.isMesh && child.geometry && child.geometry.attributes.position) {
-        const pos = child.geometry.attributes.position;
-        for (let i = 0; i < pos.count; i++) {
-          pos.setXYZ(i, pos.getX(i) + ox, pos.getY(i) + oy, pos.getZ(i) + oz);
-        }
-        pos.needsUpdate = true;
-        child.geometry.computeVertexNormals();
-      }
-    });
+    model.userData.bboxMin = box.min.clone();
+    model.userData.bboxMax = box.max.clone();
     modelCache[key] = model;
     modelLoading[key] = false;
   }, undefined, function(err) {
@@ -4407,6 +4396,10 @@ function buildFromModel(key) {
     const clone = modelCache[key].clone(true);
     clone.scale.set(def.scale, def.scale, def.scale);
     clone.rotation.y = def.rotY;
+    const mn = modelCache[key].userData.bboxMin;
+    const mx = modelCache[key].userData.bboxMax;
+    const s = def.scale;
+    clone.position.set(-(mn.x+mx.x)/2*s, -mn.y*s, -(mn.z+mx.z)/2*s);
     carGroup.add(clone);
   } else {
     const bodyMat = new THREE.MeshStandardMaterial({ color: 0xff2800, metalness: 0.5, roughness: 0.3, envMap, envMapIntensity: 1 });
@@ -5007,7 +5000,7 @@ function updateDashboard() {
   const diffLabels = {easy:'Easy', normal:'Normal', difficult:'Difficult'};
   const wetLabels = {sunny:'Sunny', cloudy:'Cloudy', rain:'Rain', heavyRain:'Heavy', fog:'Fog', storm:'Storm'};
   const vehNames = vehicleType === 'car'
-    ? ['911 TURBO', 'M4', 'GT-R', 'SUPRA', 'AVENTADOR', 'THAR', 'FERRARI 488']
+    ? ['911 TURBO', 'M4', 'GT-R', 'SUPRA', 'AVENTADOR', 'FERRARI 488']
     : ['NINJA H2', 'DUKE 390', 'BULLET 350', 'HAYABUSA', 'R1', 'ACTIVA'];
   const vehIdx = vehicleType === 'car' ? selectedCar : selectedBike;
   document.getElementById('dash-scenary-val').textContent = scenLabels[scenery] || 'Highway';
@@ -5651,7 +5644,6 @@ const VEHICLE_STATS = {
     { speed:90, accel:65, handling:82, nitro:92, maxSpeed:62, accelRate:14, name:'GT-R' },
     { speed:80, accel:92, handling:70, nitro:52, maxSpeed:48, accelRate:20, name:'GR Supra' },
     { speed:100, accel:92, handling:62, nitro:72, maxSpeed:70, accelRate:19, name:'Aventador' },
-    { speed:50, accel:52, handling:52, nitro:32, maxSpeed:32, accelRate:10, name:'Thar' },
     { speed:95, accel:88, handling:82, nitro:78, maxSpeed:65, accelRate:18, name:'Ferrari 488' }
   ],
   bike: [
@@ -5807,7 +5799,7 @@ function hideVehicleDashboard() {
 
 function updateVDDisplay() {
   const names = vehicleType === 'car'
-    ? ['911 TURBO', 'M4', 'GT-R', 'SUPRA', 'AVENTADOR', 'THAR', 'FERRARI 488']
+    ? ['911 TURBO', 'M4', 'GT-R', 'SUPRA', 'AVENTADOR', 'FERRARI 488']
     : ['NINJA H2', 'DUKE 390', 'BULLET 350', 'HAYABUSA', 'R1', 'ACTIVA'];
   const idx = vehicleType === 'car' ? selectedCar : selectedBike;
   const stats = getVehicleStats();
@@ -5825,7 +5817,7 @@ function updateVDDisplay() {
 }
 
 function vdCycle(dir) {
-  const max = 7;
+  const max = 6;
   if (vehicleType === 'car') {
     selectedCar = (selectedCar + dir + max) % max;
     switchCar(selectedCar);
@@ -6184,7 +6176,6 @@ const ENG = {
     { wave:'square',   idle:45,redline:155,sub:0.4,noise:0.18,filt:180,whine:1.2 },   // GT-R - guttural V6 + turbo
     { wave:'sawtooth', idle:58,redline:195,sub:0.35,noise:0.12,filt:260,whine:0 },    // Supra - deep I6
     { wave:'sawtooth', idle:78,redline:260,sub:0.08,noise:0.05,filt:600,whine:0 },    // Aventador - V12 scream
-    { wave:'square',   idle:28,redline:95,sub:0.55,noise:0.38,filt:100,whine:0 },     // Thar - diesel thump
     { wave:'sawtooth', idle:70,redline:250,sub:0.12,noise:0.06,filt:450,whine:1.5 }  // Ferrari 488 - twin-turbo V8
   ],
   bike: [
