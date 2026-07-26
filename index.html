@@ -4338,7 +4338,6 @@ function switchCar(index) {
   if (soundReady) { resumeAudio(); startEngine(); }
 }
 let soundReady = false;
-switchCar(0);
 
 // GLB model system - generic loader for multiple models
 const modelCache = {};
@@ -4417,6 +4416,7 @@ function preloadAllModels() {
     try { preloadModel(key); } catch(e) { console.warn('preload err for', key, e); }
   }
 }
+switchCar(0);
 
 const playerHLightL = new THREE.PointLight(0xffeedd, 0, 30);
 const playerHLightR = new THREE.PointLight(0xffeedd, 0, 30);
