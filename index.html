@@ -4320,7 +4320,7 @@ function switchCar(index) {
   }
   if (vehicleType === 'car') {
     selectedCar = index;
-    if (index === 0) buildPorsche();
+    if (index === 0) buildFromModel('porsche');
     else if (index === 1) buildFromModel('bmw_m4');
     else if (index === 2) buildFromModel('bmw_gtr');
     else if (index === 3) buildFromModel('supra');
@@ -4344,6 +4344,7 @@ switchCar(0);
 const modelCache = {};
 const modelLoading = {};
 const MODEL_DEFS = {
+  porsche:   { path:'assets/porsche_carrera_gt.glb', scale:1.0, rotY:0 },
   bmw_m4:    { path:'assets/bmw_m4.glb',            scale:1.0, rotY:0 },
   bmw_gtr:   { path:'assets/bmw_gtr.glb',           scale:1.0, rotY:Math.PI/2 },
   supra:     { path:'assets/toyota_supra.glb',       scale:1.0, rotY:0 },
