@@ -643,8 +643,8 @@ const { useState, useEffect, useRef, useMemo, useCallback } = React;
 const { createRoot } = ReactDOM;
 
 // --- Download URLs ---
-const DL_WIN = 'https://github.com/akhilboss118-an/turbo-racer/releases/tag/v3.1';
-const DL_ANDROID = 'https://github.com/akhilboss118-an/turbo-racer/releases/tag/v3.1';
+const DL_WIN = 'https://github.com/akhilboss118-an/turbo-racer/releases/download/v3.1/TurboDrive-3.1.0-Setup.exe';
+const DL_ANDROID = 'https://github.com/akhilboss118-an/turbo-racer/releases/download/v3.1/TurboDrive-v3.1.apk';
 
 // --- Zustand store ---
 const useStore = (() => {
@@ -1779,7 +1779,7 @@ function DownloadModal({ platform, onClose }) {
           clearInterval(iv);
           setPhase('done');
           setStatus('Redirecting to official GitHub Release page...');
-          window.open('https://github.com/akhilboss118-an/turbo-racer/releases/tag/v3.1', '_blank', 'noopener,noreferrer');
+          window.open(info.url, '_blank', 'noopener,noreferrer');
         }
         setProgress(p);
         const dots = '.'.repeat(Math.floor(p / 10) % 4);
@@ -1890,7 +1890,7 @@ function App() {
   }, [loaded]);
 
   const openDownload = (platform) => {
-    window.open('https://github.com/akhilboss118-an/turbo-racer/releases/tag/v3.1', '_blank', 'noopener,noreferrer');
+    window.open(platform === 'android' ? DL_ANDROID : DL_WIN, '_blank', 'noopener,noreferrer');
   };
 
   if (!loaded) return <Loading onDone={() => setLoaded(true)} />;
