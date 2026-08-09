@@ -62,11 +62,6 @@
   50% { transform: rotate(-90deg); }
   100% { transform: rotate(0deg); }
 }
-@media (orientation: portrait) {
-  #orientation-warning {
-    display: flex;
-  }
-}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;font-family:'Segoe UI',sans-serif;color:#fff;user-select:none;touch-action:none}
 #c{display:block;width:100%;height:100%}
@@ -2792,7 +2787,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;font-family:
     </div>
     <h2>PLEASE ROTATE YOUR DEVICE</h2>
     <p>For the best high-octane racing experience, rotate your screen to landscape mode.</p>
+    <button id="btn-dismiss-orientation" onclick="document.getElementById('orientation-warning').style.display='none'" style="margin-top:20px;padding:12px 28px;background:linear-gradient(135deg,#00d4ff,#0055ff);border:none;border-radius:24px;color:#fff;font-weight:800;font-size:0.8rem;letter-spacing:1.5px;cursor:pointer;box-shadow:0 4px 15px rgba(0,212,255,0.4)">
+      CONTINUE ANYWAY ➔
+    </button>
   </div>
+  <script>
+    function checkOrientation() {
+      const warning = document.getElementById('orientation-warning');
+      if (!warning) return;
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isNative = !!(window.Capacitor || (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()));
+      if (isNative || !isPortrait) {
+        warning.style.display = 'none';
+      } else {
+        warning.style.display = 'flex';
+      }
+    }
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    document.addEventListener('DOMContentLoaded', checkOrientation);
+    setTimeout(checkOrientation, 300);
+  </script>
 
 <canvas id="c"></canvas>
 <div id="ui">
@@ -3574,8 +3589,8 @@ function initTouchControls() {
   let touchRaceActive = false;
   const updateVis = () => {
     const isPedals = (ctrlMode === 'pedals');
-    const isRacing = touchRaceActive || (raceState === 'racing' || raceStarted);
-    const show = isPedals && isRacing;
+    const isRacingActive = touchRaceActive || (raceState === 'racing' || raceState === 'countdown' || raceStarted);
+    const show = isPedals && isRacingActive;
 
     touchSteerLeftEl.style.display = show ? 'flex' : 'none';
     touchSteerRightEl.style.display = show ? 'flex' : 'none';
@@ -8532,6 +8547,9 @@ function updateDashboard() {
 }
 
 function showMenuContent() {
+  if (typeof window.setTouchRaceActive === 'function') {
+    window.setTouchRaceActive(false);
+  }
   updateDashboard();
   initDashboardButtons();
 }
@@ -8771,6 +8789,9 @@ window.selectDifficultyAndStart = function(level) {
   if (vd) vd.classList.remove('show');
   hideMenu();
   startRace();
+  if (typeof window.setTouchRaceActive === 'function') {
+    window.setTouchRaceActive(true);
+  }
 };
 
 function updateSMRoutePreview() {
