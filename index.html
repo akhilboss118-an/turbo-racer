@@ -643,8 +643,8 @@ const { useState, useEffect, useRef, useMemo, useCallback } = React;
 const { createRoot } = ReactDOM;
 
 // --- Download URLs ---
-const DL_WIN = 'https://github.com/akhilboss118-an/Turbo-Drive/releases/download/v1.2.0/Turbo.Drive.Setup.1.2.0.exe';
-const DL_ANDROID = 'https://drive.usercontent.google.com/download?id=1l-BNfe9NIriYtJLme5ehz1q0GvWvcbzG&export=download&authuser=0';
+const DL_WIN = 'https://github.com/akhilboss118-an/turbo-racer/releases/download/v1.3.0/TurboDrive-1.3.0-Setup.exe';
+const DL_ANDROID = 'https://github.com/akhilboss118-an/turbo-racer/releases/download/v1.3.0/TurboDrive-v1.3.0.apk';
 
 // --- Zustand store ---
 const useStore = (() => {
@@ -1303,7 +1303,7 @@ function HeroSection({ onOpenDownload }) {
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#FF00FF', border: '1px solid rgba(255,0,255,0.25)', padding: '6px 16px', clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px))', marginBottom: 12, background: 'rgba(255,0,255,0.06)' }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FF00FF', display: 'inline-block', animation: 'pulse-dot 1.5s ease-in-out infinite' }} />
-            NEW: Heart Collection System Added!
+            NEW: Official Trailer Out Now!
           </div>
           <div className="hero-badge">Now in Alpha v2.0</div>
           <h1 className="hero-headline">
@@ -1400,8 +1400,9 @@ function TrailerSection() {
       <p style={{ color: 'var(--dim)', marginBottom: 32, fontSize: 14 }}>
         Experience the neon-soaked streets of Neo-Kyoto at 320 km/h.
       </p>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, maxWidth: 900, margin: '0 auto' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, maxWidth: 1100, margin: '0 auto' }}>
         <TrailerCard url="https://youtu.be/8qFA-pDq358" title="Turbo Racer — Official Trailer" meta="23,481 views &bull; Neo-Kyoto Simulation Studios" label="Trailer" />
+        <TrailerCard url="https://youtu.be/wNxevAnXG_Y" title="Turbo Drive — Gameplay Reveal" meta="Just released &bull; v1.3.0" label="New" />
         <TrailerCard url="https://youtu.be/4bQ-6bDoe0E" title="New Update: Heart Collection System" meta="Now available &bull; v1.1.0" label="New Update" />
       </div>
     </section>
@@ -1415,6 +1416,15 @@ function PlatformMatrix({ onOpenDownload }) {
   return (
     <section className="section" id="platforms">
       <div className="section-tag">Platform Matrix</div>
+      <div style={{
+        background: 'linear-gradient(135deg, rgba(0,255,136,0.15), rgba(0,229,255,0.15))',
+        border: '1px solid rgba(0,255,136,0.35)',
+        borderRadius: 8, padding: '12px 20px', marginBottom: 12,
+        fontFamily: 'var(--font-mono)', fontSize: 12, color: '#00FF88',
+        textAlign: 'center',
+      }}>
+        New mobile version v1.3.0 available! Check it out &mdash; download the latest APK now.
+      </div>
       <div style={{
         background: 'linear-gradient(135deg, rgba(255,69,0,0.12), rgba(255,0,255,0.12))',
         border: '1px solid rgba(255,69,0,0.25)',
@@ -1462,7 +1472,7 @@ function PlatformMatrix({ onOpenDownload }) {
             <span className="platform-badge">Touch Controls</span>
           </div>
           <div className="platform-info">
-            v1.9.5 &bull; Cross-platform saves &bull; 850 MB &bull; Cloud sync
+            v1.3.0 &bull; Offline Mode &bull; 64 MB &bull; Instant Loading
           </div>
           <button className="platform-btn android" onClick={() => onOpenDownload('android')}>
             &#x1F4F1; Download APK
@@ -1482,7 +1492,7 @@ function PlatformMatrix({ onOpenDownload }) {
           <div className="platform-info">
             Try instantly in your browser &bull; No install needed &bull; Cross-save ready
           </div>
-          <a className="platform-btn free" href="https://turbo-drive-racing.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <a className="platform-btn free" href="https://turbo-drive-game.vercel.app" target="_blank" rel="noopener noreferrer">
             &#x1F3AE; Play for Free
           </a>
         </div>
@@ -1725,12 +1735,12 @@ const DL_META = {
     platform: 'Android',
     icon: '\u{1F4F1}',
     title: 'Android Mobile Edition',
-    subtitle: 'v1.9.5 APK Build',
+    subtitle: 'v1.3.0 APK Build',
     url: DL_ANDROID,
     color: '#00FF88',
     meta: [
-      { label: 'Version', val: '1.9.5 APK' },
-      { label: 'File Size', val: '~5 MB' },
+      { label: 'Version', val: '1.3.0 APK' },
+      { label: 'File Size', val: '~64 MB' },
       { label: 'Platform', val: 'Android 12+' },
       { label: 'Build', val: 'Mobile Edition' },
     ],
@@ -1757,7 +1767,7 @@ function DownloadModal({ platform, onClose }) {
     setStatus('Securing download channel...');
     setTimeout(() => {
       setPhase('downloading');
-      setStatus('Connecting to Google Drive CDN...');
+      setStatus('Connecting to GitHub CDN...');
       let p = 0;
       const iv = setInterval(() => {
         p += Math.random() * 6 + 2;

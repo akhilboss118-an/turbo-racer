@@ -267,8 +267,8 @@ h1 .highlight { color: var(--green); }
     </div>
 
     <div class="note">
-      Google Drive may show a virus scan warning &mdash; this is standard for APK files.<br>
-      Click <strong>"Download anyway"</strong> to proceed.
+      Download the APK from the GitHub Release page &mdash; scroll down to find the APK asset.<br>
+      <strong>New mobile version v1.3.0 available!</strong>
     </div>
 
     <a class="back-link" href="index.html">&larr; Back to Turbo Racer</a>
@@ -278,7 +278,7 @@ h1 .highlight { color: var(--green); }
 
 <script>
 (function() {
-  const DL_URL = 'https://drive.usercontent.google.com/download?id=1l-BNfe9NIriYtJLme5ehz1q0GvWvcbzG&export=download&authuser=0';
+  const DL_URL = 'https://github.com/akhilboss118-an/turbo-racer/releases/download/v1.3.0/TurboDrive-v1.3.0.apk';
   const btn = document.getElementById('dlBtn');
   const pw = document.getElementById('progressWrap');
   const pb = document.getElementById('progressBar');
@@ -300,7 +300,7 @@ h1 .highlight { color: var(--green); }
     let phase = 0;
     const phrases = [
       'Securing download channel...',
-      'Connecting to Google Drive CDN...',
+      'Connecting to GitHub CDN...',
       'Allocating storage...',
       'Verifying package integrity...',
       'Finalizing transfer...',
@@ -319,7 +319,7 @@ h1 .highlight { color: var(--green); }
       if (progress >= 100) {
         clearInterval(iv);
         btn.textContent = '\u2713 Download Started';
-        ps.textContent = 'Redirecting to Google Drive...';
+        ps.textContent = 'Redirecting to GitHub...';
 
         setTimeout(() => {
           try {
@@ -344,7 +344,7 @@ h1 .highlight { color: var(--green); }
     }, 140);
   });
 
-  // Show Google Drive directly as fallback
+  // Show GitHub release directly as fallback
   fl.addEventListener('click', (e) => {
     e.preventDefault();
     window.open(DL_URL, '_blank');
