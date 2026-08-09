@@ -1,8 +1,54 @@
 {
   "name": "turbo-drive",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Turbo Drive - 3D Racing Game",
   "main": "electron/main.cjs",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "build:exe": "npx electron-builder --win --x64",
+    "build:apk": "npx cap copy android && cd android && ./gradlew assembleRelease",
+    "release": "npm run build:exe && npm run build:apk"
+  },
+  "build": {
+    "appId": "com.turbodrive.racing",
+    "productName": "Turbo Drive",
+    "directories": {
+      "output": "dist/electron"
+    },
+    "files": [
+      "electron/**/*",
+      "assets/**/*",
+      "css/**/*",
+      "js/**/*",
+      "lib/**/*",
+      "sounds/**/*",
+      "textures/**/*",
+      "index.html",
+      "manifest.json",
+      "sw.js",
+      "ICON.png",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "electron/main.cjs"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "ICON.png",
+      "artifactName": "TurboDrive-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
+    "electron": "^43.2.0",
+    "electron-builder": "^25.1.8"
+  }
 }

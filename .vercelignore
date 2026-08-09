@@ -1,0 +1,14 @@
+*.exe
+*.apk
+dist
+android
+node_modules
+.git
+.vercel
+capacitor.config.ts
+package.json
+package-lock.json
+website of turbo racer
+electron
+*.apk.idsig
+*.zip

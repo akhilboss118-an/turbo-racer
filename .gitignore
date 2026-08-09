@@ -1,8 +1,12 @@
 node_modules/
 dist/
+www/
 .env
 *.log
 .DS_Store
 
 .vercel
 .env*
+*.exe
+*.apk
+*.apk.idsig
