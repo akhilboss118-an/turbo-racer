@@ -1,0 +1,18 @@
+node_modules
+dist-electron
+dist-electron-installer
+website of turbo racer
+.opencode
+.planning
+.git
+android
+Turbo-Drive-Setup.exe
+Turbo-Drive.exe
+Turbo-Drive.apk
+Turbo-Drive-1.0.0.apk
+duke-390.zip
+*.iss
+*.ps1
+*.md
+*.bat
+.idea
