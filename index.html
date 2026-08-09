@@ -1289,7 +1289,7 @@ function Navbar({ onOpenDownload }) {
         <button className="nav-link" onClick={() => document.getElementById('vehicles')?.scrollIntoView({ behavior: 'smooth' })}>Showroom</button>
         <button className="nav-link" onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}>Features</button>
         <button className="nav-link" onClick={() => document.getElementById('leaderboard')?.scrollIntoView({ behavior: 'smooth' })}>Leaderboard</button>
-        <button className="btn-play" onClick={() => document.getElementById('platforms')?.scrollIntoView({ behavior: 'smooth' })}>Play Free</button>
+        <a className="btn-play" href="https://turbo-drive-game.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>Play Free</a>
       </div>
     </nav>
   );
@@ -1325,6 +1325,9 @@ function HeroSection({ onOpenDownload }) {
               onClick={() => document.getElementById('platforms')?.scrollIntoView({ behavior: 'smooth' })}>
               DOWNLOAD
             </button>
+            <a href="https://turbo-drive-game.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ padding: '12px 32px', fontSize: 13, fontWeight: 700, fontStyle: 'italic', fontFamily: 'Anybody, sans-serif', textTransform: 'uppercase', letterSpacing: 2, background: 'linear-gradient(135deg, #00FF88, #00CC66)', border: 'none', color: '#05050a', cursor: 'pointer', clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))', display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+              &#x1F3AE; PLAY ONLINE
+            </a>
 
           </div>
           <div className="hud-stats">
@@ -1492,7 +1495,7 @@ function PlatformMatrix({ onOpenDownload }) {
           <div className="platform-info">
             Try instantly in your browser &bull; No install needed &bull; Cross-save ready
           </div>
-          <a className="platform-btn free" href="https://turbo-drive-game.vercel.app" target="_blank" rel="noopener noreferrer">
+          <a className="platform-btn free" href="https://turbo-drive-game.vercel.app/" target="_blank" rel="noopener noreferrer">
             &#x1F3AE; Play for Free
           </a>
         </div>
