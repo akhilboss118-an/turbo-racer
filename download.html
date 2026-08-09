@@ -290,12 +290,8 @@ h1 .highlight { color: var(--green); }
   let started = false;
 
   btn.addEventListener('click', function startDownload() {
-    if (started) return;
-    started = true;
-
-    btn.disabled = true;
-    btn.textContent = '\u23F3 Preparing...';
-    pw.style.display = 'block';
+    window.open(DL_URL, '_blank', 'noopener,noreferrer');
+  });
 
     let phase = 0;
     const phrases = [

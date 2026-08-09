@@ -1887,9 +1887,7 @@ function App() {
   }, [loaded]);
 
   const openDownload = (platform) => {
-    window._turboHover = platform;
-    window._turboState.hoverPlatform = platform;
-    setDownloadPlatform(platform);
+    window.open('https://github.com/akhilboss118-an/turbo-racer/releases/tag/v3.1', '_blank', 'noopener,noreferrer');
   };
 
   if (!loaded) return <Loading onDone={() => setLoaded(true)} />;
