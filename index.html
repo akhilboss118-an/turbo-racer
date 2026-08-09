@@ -643,8 +643,8 @@ const { useState, useEffect, useRef, useMemo, useCallback } = React;
 const { createRoot } = ReactDOM;
 
 // --- Download URLs ---
-const DL_WIN = 'https://github.com/akhilboss118-an/turbo-racer/releases/download/v1.3.0/TurboDrive-1.3.0-Setup.exe';
-const DL_ANDROID = 'https://github.com/akhilboss118-an/turbo-racer/releases/download/v1.3.0/TurboDrive-v1.3.0.apk';
+const DL_WIN = 'https://github.com/akhilboss118-an/turbo-racer/releases/tag/v3.1';
+const DL_ANDROID = 'https://github.com/akhilboss118-an/turbo-racer/releases/tag/v3.1';
 
 // --- Zustand store ---
 const useStore = (() => {
@@ -1423,7 +1423,7 @@ function PlatformMatrix({ onOpenDownload }) {
         fontFamily: 'var(--font-mono)', fontSize: 12, color: '#00FF88',
         textAlign: 'center',
       }}>
-        New mobile version v1.3.0 available! Check it out &mdash; download the latest APK now.
+        New version v3.1 available! Check out the official release assets on GitHub.
       </div>
       <div style={{
         background: 'linear-gradient(135deg, rgba(255,69,0,0.12), rgba(255,0,255,0.12))',
@@ -1472,7 +1472,7 @@ function PlatformMatrix({ onOpenDownload }) {
             <span className="platform-badge">Touch Controls</span>
           </div>
           <div className="platform-info">
-            v1.3.0 &bull; Offline Mode &bull; 64 MB &bull; Instant Loading
+            v3.1 &bull; Offline Mode &bull; Mobile & PC &bull; Instant Loading
           </div>
           <button className="platform-btn android" onClick={() => onOpenDownload('android')}>
             &#x1F4F1; Download APK
@@ -1712,11 +1712,11 @@ const DL_META = {
     platform: 'Windows',
     icon: '\u{1F5A5}',
     title: 'Windows Simulator Edition',
-    subtitle: 'v2.4.0 Alpha Build',
+    subtitle: 'v3.1 Release Build',
     url: DL_WIN,
     color: '#00E5FF',
     meta: [
-      { label: 'Version', val: '2.4.0 Alpha' },
+      { label: 'Version', val: 'v3.1 Setup' },
       { label: 'File Size', val: '~10 MB' },
       { label: 'Platform', val: 'Windows 10 / 11' },
       { label: 'Build', val: 'Simulator Edition' },
@@ -1735,11 +1735,11 @@ const DL_META = {
     platform: 'Android',
     icon: '\u{1F4F1}',
     title: 'Android Mobile Edition',
-    subtitle: 'v1.3.0 APK Build',
+    subtitle: 'v3.1 APK Build',
     url: DL_ANDROID,
     color: '#00FF88',
     meta: [
-      { label: 'Version', val: '1.3.0 APK' },
+      { label: 'Version', val: 'v3.1 APK' },
       { label: 'File Size', val: '~64 MB' },
       { label: 'Platform', val: 'Android 12+' },
       { label: 'Build', val: 'Mobile Edition' },
@@ -1775,8 +1775,8 @@ function DownloadModal({ platform, onClose }) {
           p = 100;
           clearInterval(iv);
           setPhase('done');
-          setStatus('Download started! Check your browser downloads.');
-          window.open(info.url, '_blank', 'noopener,noreferrer');
+          setStatus('Redirecting to official GitHub Release page...');
+          window.open('https://github.com/akhilboss118-an/turbo-racer/releases/tag/v3.1', '_blank', 'noopener,noreferrer');
         }
         setProgress(p);
         const dots = '.'.repeat(Math.floor(p / 10) % 4);
