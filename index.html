@@ -2717,62 +2717,403 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;font-family:
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.25);
 }
 
-/* Other clean elements */
-#drift-tag {
-  position: absolute;
-  top: 130px;
-  right: 20px;
-  font-size: 0.7rem;
-  font-weight: 900;
-  letter-spacing: 3px;
-  color: #00d4ff;
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-  background: rgba(10,12,22,0.6);
-  border: 1px solid rgba(0, 212, 255, 0.25);
-  padding: 4px 10px;
-  border-radius: 6px;
-  transition: opacity 0.2s;
-  text-transform: uppercase;
+/* --- ENHANCED MINIMAP & RADAR STYLES --- */
+.hud-minimap-card {
+  position: relative;
+  background: radial-gradient(circle at center, rgba(15, 23, 42, 0.85) 0%, rgba(6, 8, 16, 0.95) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(0, 212, 255, 0.35);
+  border-radius: 16px;
+  padding: 6px;
+  display: inline-block;
+  pointer-events: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 15px rgba(0, 212, 255, 0.15);
+  overflow: hidden;
 }
-#fps {
+.hud-minimap-card::before {
+  content: '';
   position: absolute;
-  top: 14px;
-  left: 20px;
-  font-size: 0.65rem;
-  font-family: 'Consolas', monospace;
-  color: rgba(255,255,255,0.3);
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, rgba(0,212,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+#hud-minimap-canvas {
+  display: block;
+  border-radius: 12px;
+}
+.hud-minimap-header {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.45rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: rgba(0, 212, 255, 0.85);
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+  pointer-events: none;
 }
 
-/* Mobile landscape styling adjustments */
-@media(orientation:landscape) and (max-height: 520px) {
-  .vd-header-bar { height: 50px; padding: 0 16px; }
-  .vd-logo { font-size: 1.2rem; }
-  .vd-tab { font-size: 0.65rem; padding: 0 12px; }
-  .vd-currency { font-size: 0.75rem; padding: 4px 10px; }
-  .vd-left-sidebar { top: 50px; width: 220px; height: calc(100% - 50px); padding: 10px; }
-  .vd-center-space { left: 220px; width: calc(100% - 470px); height: calc(100% - 50px); }
-  .vd-right-panel { top: 50px; width: 250px; height: calc(100% - 50px); padding: 12px; }
-  .vd-right-title { font-size: 1.1rem; margin-bottom: 6px; }
-  .vd-blueprint-card { height: 100px; margin-bottom: 8px; }
-  .vd-center-play-btn { font-size: 0.9rem; padding: 10px 30px; bottom: 15px; }
-  .vd-center-config-btn { bottom: 15px; right: 15px; width: 34px; height: 34px; }
-  
-  .hud-progress-container { min-width: 180px; height: 32px; padding: 4px 12px; gap: 8px; }
-  .hud-progress-score { font-size: 0.8rem; }
-  .hud-score-card { padding: 4px 10px; }
-  .hud-score-val { font-size: 0.9rem; }
-  .hud-timer-card { font-size: 1.1rem; }
-  .hud-left-panel { top: 6px; left: 10px; gap: 6px; }
-  .hud-steering-controls { gap: 6px; }
-  .hud-steer-btn { width: 44px; height: 44px; }
-  .hud-steer-btn svg { width: 20px; height: 20px; }
-  .hud-instrument-cluster { width: 300px; height: 95px; border-radius: 20px 20px 0 0; }
-  .hud-instrument-cluster svg { transform: scale(1); }
-  .hud-pedals-container { bottom: 6px; right: 10px; gap: 6px; }
-  .hud-hbrake-btn { width: 34px; height: 34px; }
-  .hud-foot-pedals { gap: 10px; }
-  .brake-pedal { width: 60px; height: 44px; }
-  .accel-pedal { width: 44px; height: 60px; }
+/* --- IN-GAME FLOATING ACHIEVEMENT NOTIFICATION TOAST --- */
+.hud-ach-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px) scale(0.9);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, rgba(20, 24, 40, 0.96), rgba(10, 12, 20, 0.98));
+  border: 2px solid #ffd700;
+  border-radius: 16px;
+  padding: 10px 22px;
+  z-index: 200;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 215, 0, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+}
+.hud-ach-toast.show {
+  transform: translateX(-50%) translateY(0) scale(1);
+  opacity: 1;
+}
+.ach-toast-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+  animation: achIconPulse 1.2s infinite alternate ease-in-out;
+}
+@keyframes achIconPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15) rotate(6deg); }
+}
+.ach-toast-body {
+  text-align: left;
+}
+.ach-toast-tag {
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffd700;
+  text-transform: uppercase;
+}
+.ach-toast-title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fff;
+}
+.ach-toast-reward {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #00ff88;
+  letter-spacing: 1px;
+}
+
+/* --- IN-GAME ARCADE SCORE & COMBO POPUP --- */
+.hud-arcade-popup {
+  position: fixed;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.6);
+  z-index: 180;
+  pointer-events: none;
+  opacity: 0;
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(255, 204, 0, 0.8), 2px 2px 4px #000;
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+.hud-arcade-popup.show {
+  transform: translateX(-50%) scale(1.15) skewX(-6deg);
+  opacity: 1;
+}
+
+/* --- VIRTUAL STEERING WHEEL MOBILE CONTROLS --- */
+#touch-steering-wheel-container {
+  position: fixed;
+  bottom: 15px;
+  left: 20px;
+  width: 140px;
+  height: 140px;
+  z-index: 160;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#touch-steering-wheel-graphic {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  transition: transform 0.04s ease-out;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
+}
+#touch-steering-wheel-graphic svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- VIRTUAL JOYSTICK CONTROLS --- */
+#touch-joystick-container {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  width: 120px;
+  height: 120px;
+  z-index: 160;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#touch-joystick-base {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 24, 40, 0.6) 0%, rgba(6, 8, 14, 0.85) 100%);
+  border: 2px solid rgba(0, 212, 255, 0.35);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6), inset 0 0 15px rgba(0, 212, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#touch-joystick-knob {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff4400 0%, #a82000 100%);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 68, 0, 0.5);
+  transform: translate(0px, 0px);
+  pointer-events: none;
+  transition: transform 0.05s ease-out;
+}
+
+/* --- TILT HORIZON LEVEL FEEDBACK --- */
+#touch-tilt-indicator {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(10, 12, 22, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 12px;
+  padding: 8px 14px;
+  z-index: 155;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.tilt-horizon-bar {
+  position: relative;
+  width: 90px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.tilt-center-mark {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+}
+.tilt-bubble {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 100%;
+  background: #00d4ff;
+  border-radius: 3px;
+  box-shadow: 0 0 8px #00d4ff;
+  transition: left 0.08s ease-out;
+}
+.tilt-label {
+  font-size: 0.48rem;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 700;
+}
+
+/* --- ACHIEVEMENTS & DAILY CHALLENGES MODAL UI --- */
+.ach-modal-container {
+  text-align: left;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.ach-modal-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+.ach-tab-btn {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+.ach-tab-btn.active {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 68, 0, 0.15));
+  border-color: #ffd700;
+  color: #ffd700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+}
+.ach-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ach-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(20, 24, 38, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 14px;
+  transition: all 0.2s;
+}
+.ach-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.ach-card.unlocked {
+  border-color: rgba(0, 255, 136, 0.35);
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.06), transparent);
+}
+.ach-card.claimed {
+  opacity: 0.6;
+}
+.ach-card-icon {
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.ach-card-info {
+  flex: 1;
+}
+.ach-card-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+.ach-card-desc {
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.ach-prog-bar-bg {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.ach-prog-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #00ff88);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+.ach-reward-badge {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ach-claim-btn {
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #ffd700, #ff8800);
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-weight: 900;
+  font-size: 0.62rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.ach-claim-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+}
+.ach-claimed-tag {
+  font-size: 0.6rem;
+  color: #00ff88;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Controls settings grid */
+.ctrl-schemes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.ctrl-scheme-btn {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.ctrl-scheme-btn.primary {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 100, 255, 0.2));
+  border-color: #00d4ff;
+  color: #00d4ff;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.25);
 }
 </style>
 </head>
@@ -2901,6 +3242,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;font-family:
       <button class="mr-icon-btn" id="mr-btn-daily-rewards">
         <div class="mr-icon-box gift">🎁</div>
         <div class="mr-icon-label">DAILY REWARDS</div>
+      </button>
+
+      <!-- ACHIEVEMENTS & QUESTS Button -->
+      <button class="mr-icon-btn" id="mr-btn-achievements">
+        <div class="mr-icon-box trophy" style="background:linear-gradient(135deg,rgba(255,215,0,0.2),rgba(255,140,0,0.1));border:1px solid rgba(255,215,0,0.4);color:#ffd700">🏆</div>
+        <div class="mr-icon-label">TROPHIES & QUESTS</div>
       </button>
 
       <!-- SUPPORT DEVs Button -->
@@ -3158,6 +3505,69 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;font-family:
           </div>
         </button>
       </div>
+    </div>
+    
+    <!-- In-Game Floating Achievement Toast -->
+    <div id="hud-achievement-toast" class="hud-ach-toast">
+      <div class="ach-toast-icon" id="ach-toast-icon">🏆</div>
+      <div class="ach-toast-body">
+        <div class="ach-toast-tag">ACHIEVEMENT UNLOCKED</div>
+        <div class="ach-toast-title" id="ach-toast-title">TOP SPEED DEMON</div>
+        <div class="ach-toast-reward" id="ach-toast-reward">+1,500 Cash</div>
+      </div>
+    </div>
+
+    <!-- In-Game Arcade Score & Combo Popups -->
+    <div id="hud-arcade-toast" class="hud-arcade-popup">
+      <span id="arcade-popup-text" style="background:linear-gradient(135deg,#ffcc00,#ff4400);-webkit-background-clip:text;-webkit-text-fill-color:transparent">🔥 NEAR MISS! +250 PTS</span>
+    </div>
+
+    <!-- Virtual Steering Wheel (for Wheel Control Mode) -->
+    <div id="touch-steering-wheel-container" style="display:none">
+      <div id="touch-steering-wheel-graphic">
+        <svg viewBox="0 0 160 160" width="135" height="135">
+          <defs>
+            <linearGradient id="wheel-rim-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#3b4252"/>
+              <stop offset="50%" stop-color="#191c28"/>
+              <stop offset="100%" stop-color="#0a0c14"/>
+            </linearGradient>
+            <radialGradient id="wheel-hub-grad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff4400"/>
+              <stop offset="60%" stop-color="#2a0800"/>
+              <stop offset="100%" stop-color="#06070d"/>
+            </radialGradient>
+          </defs>
+          <!-- Outer Grip Rim -->
+          <circle cx="80" cy="80" r="70" fill="none" stroke="url(#wheel-rim-grad)" stroke-width="16"/>
+          <circle cx="80" cy="80" r="70" fill="none" stroke="#ff4400" stroke-width="1.8" stroke-dasharray="16 35 16 35 16 35"/>
+          <!-- Spokes -->
+          <path d="M 80 50 L 80 14 M 58 92 L 20 118 M 102 92 L 140 118" stroke="#252a38" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 80 50 L 80 14 M 58 92 L 20 118 M 102 92 L 140 118" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/>
+          <!-- Center Hub -->
+          <circle cx="80" cy="80" r="26" fill="url(#wheel-hub-grad)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+          <!-- Top Center Race Stripe (Yellow) -->
+          <rect x="76" y="2" width="8" height="14" rx="2" fill="#ffd700"/>
+          <!-- Center Emblem Text -->
+          <text x="80" y="84" text-anchor="middle" font-family="'Impact',Arial,sans-serif" font-size="10" fill="#fff" font-weight="900" letter-spacing="1">TURBO</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Virtual Joystick (for Joystick Control Mode) -->
+    <div id="touch-joystick-container" style="display:none">
+      <div id="touch-joystick-base">
+        <div id="touch-joystick-knob"></div>
+      </div>
+    </div>
+
+    <!-- Tilt Horizon Feedback Indicator (for Tilt Gyro Mode) -->
+    <div id="touch-tilt-indicator" style="display:none">
+      <div class="tilt-horizon-bar">
+        <div class="tilt-center-mark"></div>
+        <div id="tilt-bubble" class="tilt-bubble"></div>
+      </div>
+      <span class="tilt-label">GYRO STEER</span>
     </div>
     
     <!-- Drift tag alert -->
@@ -3475,7 +3885,7 @@ function isBrake() { return !!keys['s'] || !!keys['arrowdown'] }
 function isHBrake() { return !!keys['space'] }
 function isNitro() { return !!keys['shift'] }
 
-// --- Touch Input ---
+// --- Enhanced Multi-Mode Controls & Achievements Engine ---
 let touchNitroLeft = false;
 let touchNitroRight = false;
 let touchPedalAccel = false;
@@ -3483,9 +3893,208 @@ let touchPedalBrake = false;
 let touchSteerLeft = false;
 let touchSteerRight = false;
 let isTouchDevice = false;
+
+// Control Modes: 'keyboard', 'pedals', 'wheel', 'tilt', 'joystick'
 let ctrlMode = 'pedals';
 try { ctrlMode = localStorage.getItem('turboCtrl') || 'pedals' } catch(e) {}
+let steerSensitivity = 1.0;
+try { steerSensitivity = parseFloat(localStorage.getItem('turboSens') || '1.0') } catch(e) {}
 
+// Steering wheel state
+let wheelAngle = 0;
+let targetWheelAngle = 0;
+let isWheelDragging = false;
+let wheelCenter = { x: 0, y: 0 };
+let wheelTouchId = null;
+
+// Joystick state
+let joystickSteer = 0;
+let isJoystickDragging = false;
+let joystickTouchId = null;
+let joystickBasePos = { x: 0, y: 0 };
+
+// Tilt Gyro state
+let tiltSteer = 0;
+let gyroZeroOffset = 0;
+let gyroActive = false;
+
+// ============================================================
+// ACHIEVEMENTS & DAILY CHALLENGES DATA & SYSTEM
+// ============================================================
+const ACHIEVEMENTS_DATA = [
+  { id: 'speed_demon', title: 'Top Speed Demon', desc: 'Reach a top speed of 180 KM/H on highway', icon: '🏎️', reward: 1500, goal: 180, unit: 'KM/H' },
+  { id: 'sound_barrier', title: 'Nitro Overdrive', desc: 'Reach 220+ KM/H with Nitro boost activated', icon: '⚡', reward: 2500, goal: 220, unit: 'KM/H' },
+  { id: 'drift_king', title: 'Drift King', desc: 'Score 2,000+ drift points in a single race', icon: '🌪️', reward: 2000, goal: 2000, unit: 'PTS' },
+  { id: 'clean_lap', title: 'Untouchable', desc: 'Drive 3.0 KM in one run without any collision', icon: '🛡️', reward: 3000, goal: 3000, unit: 'M' },
+  { id: 'near_miss_ace', title: 'Near Miss Ace', desc: 'Execute 10 close-call near-misses in one race', icon: '🔥', reward: 2000, goal: 10, unit: 'Calls' },
+  { id: 'heart_hoarder', title: 'Heart Hoarder', desc: 'Collect 50 total hearts across all runs', icon: '❤️', reward: 2500, goal: 50, unit: 'Hearts' },
+  { id: 'highway_veteran', title: 'Highway Veteran', desc: 'Drive 25.0 KM total lifetime distance', icon: '🛣️', reward: 5000, goal: 25000, unit: 'M' },
+  { id: 'night_stalker', title: 'Night Stalker', desc: 'Complete a race or drive 4 KM in Night mode', icon: '🌙', reward: 1500, goal: 4000, unit: 'M' },
+  { id: 'storm_chaser', title: 'Storm Chaser', desc: 'Drive 2.0 KM in Rain or Storm weather', icon: '⛈️', reward: 2000, goal: 2000, unit: 'M' },
+  { id: 'high_roller', title: 'High Roller', desc: 'Score 50,000+ points in a single race run', icon: '💎', reward: 4000, goal: 50000, unit: 'Score' }
+];
+
+let playerAchievements = {};
+try {
+  playerAchievements = JSON.parse(localStorage.getItem('turboAchievements') || '{}');
+} catch(e) { playerAchievements = {}; }
+
+let totalLifetimeDistance = 0;
+try {
+  totalLifetimeDistance = parseFloat(localStorage.getItem('turboTotalDist') || '0');
+} catch(e) { totalLifetimeDistance = 0; }
+
+let totalLifetimeHearts = 0;
+try {
+  totalLifetimeHearts = parseInt(localStorage.getItem('turboTotalHearts') || '0', 10);
+} catch(e) { totalLifetimeHearts = 0; }
+
+// Daily Challenges Generator
+function getDailyDateKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function getDailyChallenges() {
+  const dateKey = getDailyDateKey();
+  let saved = null;
+  try {
+    saved = JSON.parse(localStorage.getItem('turboDailyChallenges') || 'null');
+  } catch(e) {}
+  
+  if (saved && saved.dateKey === dateKey && saved.quests) {
+    return saved.quests;
+  }
+  
+  // Generate 3 unique daily challenges for today
+  const pool = [
+    { id: 'd_hearts', title: 'Heart Collector', desc: 'Collect 15 Hearts today', icon: '❤️', goal: 15, current: 0, reward: 2000, unit: 'Hearts', claimed: false },
+    { id: 'd_speed', title: 'Speed Rusher', desc: 'Hit 160 KM/H in any race', icon: '⚡', goal: 160, current: 0, reward: 2500, unit: 'KM/H', claimed: false },
+    { id: 'd_drift', title: 'Drift Apprentice', desc: 'Score 1,000 drift points in one run', icon: '🌪️', goal: 1000, current: 0, reward: 2000, unit: 'PTS', claimed: false },
+    { id: 'd_distance', title: 'Highway Commuter', desc: 'Drive 5.0 KM total today', icon: '🛣️', goal: 5000, current: 0, reward: 3000, unit: 'M', claimed: false },
+    { id: 'd_nearmiss', title: 'Daredevil', desc: 'Perform 6 Near-Misses today', icon: '🔥', goal: 6, current: 0, reward: 2500, unit: 'Calls', claimed: false }
+  ];
+  
+  // Deterministic seed based on date string
+  let seed = 0;
+  for (let i = 0; i < dateKey.length; i++) seed += dateKey.charCodeAt(i);
+  const selected = [];
+  for (let i = 0; i < 3; i++) {
+    const idx = (seed + i * 2) % pool.length;
+    selected.push(JSON.parse(JSON.stringify(pool[idx])));
+    pool.splice(idx, 1);
+  }
+  
+  localStorage.setItem('turboDailyChallenges', JSON.stringify({ dateKey, quests: selected }));
+  return selected;
+}
+
+function saveDailyChallenges(quests) {
+  const dateKey = getDailyDateKey();
+  try {
+    localStorage.setItem('turboDailyChallenges', JSON.stringify({ dateKey, quests }));
+  } catch(e) {}
+}
+
+// In-Game Notification Toasts
+let achToastTimer = null;
+function showAchievementToast(ach) {
+  const el = document.getElementById('hud-achievement-toast');
+  if (!el) return;
+  const iconEl = document.getElementById('ach-toast-icon');
+  const titleEl = document.getElementById('ach-toast-title');
+  const rewardEl = document.getElementById('ach-toast-reward');
+  
+  if (iconEl) iconEl.textContent = ach.icon || '🏆';
+  if (titleEl) titleEl.textContent = ach.title;
+  if (rewardEl) rewardEl.textContent = `+${ach.reward.toLocaleString()} CASH UNLOCKED!`;
+  
+  el.classList.add('show');
+  if (achToastTimer) clearTimeout(achToastTimer);
+  achToastTimer = setTimeout(() => {
+    el.classList.remove('show');
+  }, 3800);
+}
+
+let arcadeToastTimer = null;
+function showArcadeToast(text, color = '#ffd700') {
+  const el = document.getElementById('hud-arcade-toast');
+  const textEl = document.getElementById('arcade-popup-text');
+  if (!el || !textEl) return;
+  
+  textEl.textContent = text;
+  textEl.style.color = color;
+  textEl.style.textShadow = `0 0 20px ${color}, 2px 2px 4px #000`;
+  
+  el.classList.remove('show');
+  void el.offsetWidth; // Force reflow
+  el.classList.add('show');
+  
+  if (arcadeToastTimer) clearTimeout(arcadeToastTimer);
+  arcadeToastTimer = setTimeout(() => {
+    el.classList.remove('show');
+  }, 1400);
+}
+
+// Session Stats for Achievements
+let raceMaxSpeed = 0;
+let raceNearMissCount = 0;
+let raceCleanDist = 0;
+let raceHadCollision = false;
+let raceNightDist = 0;
+let raceStormDist = 0;
+let raceDriftBonus = 0;
+
+function checkAchievementProgress() {
+  let changed = false;
+  
+  for (const ach of ACHIEVEMENTS_DATA) {
+    if (!playerAchievements[ach.id]) {
+      playerAchievements[ach.id] = { unlocked: false, claimed: false, current: 0 };
+    }
+    const state = playerAchievements[ach.id];
+    if (state.unlocked) continue;
+    
+    let currentVal = 0;
+    if (ach.id === 'speed_demon') currentVal = raceMaxSpeed;
+    else if (ach.id === 'sound_barrier') currentVal = (nitroActive ? raceMaxSpeed : 0);
+    else if (ach.id === 'drift_king') currentVal = driftBonus;
+    else if (ach.id === 'clean_lap') currentVal = (!raceHadCollision ? distance : 0);
+    else if (ach.id === 'near_miss_ace') currentVal = raceNearMissCount;
+    else if (ach.id === 'heart_hoarder') currentVal = totalLifetimeHearts;
+    else if (ach.id === 'highway_veteran') currentVal = totalLifetimeDistance;
+    else if (ach.id === 'night_stalker') currentVal = (scenery === 'night' ? distance : 0);
+    else if (ach.id === 'storm_chaser') currentVal = raceStormDist;
+    else if (ach.id === 'high_roller') currentVal = score;
+    
+    state.current = Math.max(state.current || 0, Math.floor(currentVal));
+    if (state.current >= ach.goal && !state.unlocked) {
+      state.unlocked = true;
+      changed = true;
+      showAchievementToast(ach);
+    }
+  }
+  
+  if (changed) {
+    try { localStorage.setItem('turboAchievements', JSON.stringify(playerAchievements)); } catch(e) {}
+  }
+  
+  // Also check Daily Quests
+  const dailyQuests = getDailyChallenges();
+  let dailyChanged = false;
+  for (const q of dailyQuests) {
+    if (q.claimed) continue;
+    if (q.id === 'd_hearts') q.current = Math.min(q.goal, q.current + 0); // updated on coin pickup
+    else if (q.id === 'd_speed') q.current = Math.max(q.current, Math.floor(raceMaxSpeed));
+    else if (q.id === 'd_drift') q.current = Math.max(q.current, Math.floor(driftBonus));
+    else if (q.id === 'd_distance') q.current = Math.min(q.goal, q.current + 0); // updated on finish
+    else if (q.id === 'd_nearmiss') q.current = Math.max(q.current, raceNearMissCount);
+    dailyChanged = true;
+  }
+  if (dailyChanged) saveDailyChallenges(dailyQuests);
+}
+
+// Touch UI Elements Creation & Binding
 const touchBtnNitroLeftEl = document.createElement('div');
 const touchBtnNitroRightEl = document.createElement('div');
 const touchPedalAccelEl = document.createElement('div');
@@ -3496,7 +4105,7 @@ const touchBtnCameraEl = document.createElement('div');
 
 function initTouchControls() {
   isTouchDevice = true;
-  
+
   // Left Steer Disc (<)
   touchSteerLeftEl.id = 'touch-steer-left';
   touchSteerLeftEl.innerHTML = `
@@ -3523,7 +4132,7 @@ function initTouchControls() {
     </div>
   `;
 
-  // Nitro Canister Badge (Middle Left)
+  // Nitro Button (Middle Left)
   touchBtnNitroLeftEl.id = 'touch-nitro-left';
   touchBtnNitroLeftEl.className = 'touch-nos-btn';
   touchBtnNitroLeftEl.innerHTML = `
@@ -3535,7 +4144,7 @@ function initTouchControls() {
     </svg>
   `;
 
-  // Left Pedal / Brake Wheel Disc
+  // Brake Pedal (Bottom Right)
   touchPedalBrakeEl.id = 'touch-pedal-brake';
   touchPedalBrakeEl.innerHTML = `
     <div class="disc-outer brake-disc">
@@ -3549,7 +4158,7 @@ function initTouchControls() {
     </div>
   `;
 
-  // Right Pedal / Gas Accel Disc
+  // Gas / Accel Pedal (Bottom Right)
   touchPedalAccelEl.id = 'touch-pedal-accel';
   touchPedalAccelEl.innerHTML = `
     <div class="disc-outer accel-disc">
@@ -3562,7 +4171,7 @@ function initTouchControls() {
     </div>
   `;
 
-  // Camera Toggle Button (Middle Right)
+  // Camera Toggle Button
   touchBtnCameraEl.id = 'touch-camera';
   touchBtnCameraEl.innerHTML = `
     <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -3586,18 +4195,148 @@ function initTouchControls() {
     touchBtnCameraEl.ontouchstart = triggerCam;
   }
 
+  // --- Virtual Steering Wheel Binding ---
+  const wheelContainer = document.getElementById('touch-steering-wheel-container');
+  const wheelGraphic = document.getElementById('touch-steering-wheel-graphic');
+  if (wheelContainer && wheelGraphic) {
+    const handleWheelStart = (e) => {
+      e.preventDefault();
+      const touch = e.targetTouches ? e.targetTouches[0] : e;
+      wheelTouchId = touch.identifier !== undefined ? touch.identifier : 'mouse';
+      const rect = wheelContainer.getBoundingClientRect();
+      wheelCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      isWheelDragging = true;
+      handleWheelMove(e);
+    };
+
+    const handleWheelMove = (e) => {
+      if (!isWheelDragging) return;
+      let touch = null;
+      if (e.targetTouches) {
+        for (let i = 0; i < e.touches.length; i++) {
+          if (e.touches[i].identifier === wheelTouchId) { touch = e.touches[i]; break; }
+        }
+      } else { touch = e; }
+      if (!touch) return;
+      
+      const dx = touch.clientX - wheelCenter.x;
+      const dy = touch.clientY - wheelCenter.y;
+      let angle = Math.atan2(dx, -dy); // 0 is top
+      // Clamp between -120 deg and +120 deg
+      const maxRad = Math.PI * 0.65;
+      angle = Math.max(-maxRad, Math.min(maxRad, angle));
+      targetWheelAngle = angle;
+    };
+
+    const handleWheelEnd = (e) => {
+      if (!isWheelDragging) return;
+      if (e.changedTouches) {
+        for (let i = 0; i < e.changedTouches.length; i++) {
+          if (e.changedTouches[i].identifier === wheelTouchId) {
+            isWheelDragging = false;
+            targetWheelAngle = 0;
+            break;
+          }
+        }
+      } else {
+        isWheelDragging = false;
+        targetWheelAngle = 0;
+      }
+    };
+
+    wheelContainer.addEventListener('touchstart', handleWheelStart, { passive: false });
+    window.addEventListener('touchmove', handleWheelMove, { passive: false });
+    window.addEventListener('touchend', handleWheelEnd, { passive: false });
+    window.addEventListener('touchcancel', handleWheelEnd, { passive: false });
+    wheelContainer.addEventListener('mousedown', handleWheelStart);
+    window.addEventListener('mousemove', handleWheelMove);
+    window.addEventListener('mouseup', handleWheelEnd);
+  }
+
+  // --- Virtual Joystick Binding ---
+  const joyContainer = document.getElementById('touch-joystick-container');
+  const joyKnob = document.getElementById('touch-joystick-knob');
+  if (joyContainer && joyKnob) {
+    const handleJoyStart = (e) => {
+      e.preventDefault();
+      const touch = e.targetTouches ? e.targetTouches[0] : e;
+      joystickTouchId = touch.identifier !== undefined ? touch.identifier : 'mouse';
+      const rect = joyContainer.getBoundingClientRect();
+      joystickBasePos = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      isJoystickDragging = true;
+      handleJoyMove(e);
+    };
+
+    const handleJoyMove = (e) => {
+      if (!isJoystickDragging) return;
+      let touch = null;
+      if (e.targetTouches) {
+        for (let i = 0; i < e.touches.length; i++) {
+          if (e.touches[i].identifier === joystickTouchId) { touch = e.touches[i]; break; }
+        }
+      } else { touch = e; }
+      if (!touch) return;
+      
+      const maxR = 40;
+      let dx = touch.clientX - joystickBasePos.x;
+      let dy = touch.clientY - joystickBasePos.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist > maxR) {
+        dx = (dx / dist) * maxR;
+        dy = (dy / dist) * maxR;
+      }
+      joyKnob.style.transform = `translate(${dx}px, ${dy}px)`;
+      // Normalized steering: left gives positive, right gives negative (or vice versa for track coordinate system)
+      joystickSteer = -(dx / maxR);
+    };
+
+    const handleJoyEnd = (e) => {
+      if (!isJoystickDragging) return;
+      isJoystickDragging = false;
+      joyKnob.style.transform = 'translate(0px, 0px)';
+      joystickSteer = 0;
+    };
+
+    joyContainer.addEventListener('touchstart', handleJoyStart, { passive: false });
+    window.addEventListener('touchmove', handleJoyMove, { passive: false });
+    window.addEventListener('touchend', handleJoyEnd, { passive: false });
+    window.addEventListener('touchcancel', handleJoyEnd, { passive: false });
+    joyContainer.addEventListener('mousedown', handleJoyStart);
+    window.addEventListener('mousemove', handleJoyMove);
+    window.addEventListener('mouseup', handleJoyEnd);
+  }
+
+  // --- Device Tilt / Gyroscope Setup ---
+  initGyroscope();
+
+  // Control Visibility update
   let touchRaceActive = false;
   const updateVis = () => {
-    const isPedals = (ctrlMode === 'pedals');
     const isRacingActive = touchRaceActive || (raceState === 'racing' || raceState === 'countdown' || raceStarted);
-    const show = isPedals && isRacingActive;
+    const isMobileMode = (ctrlMode === 'pedals' || ctrlMode === 'wheel' || ctrlMode === 'tilt' || ctrlMode === 'joystick');
+    const showControls = isMobileMode && isRacingActive;
 
-    touchSteerLeftEl.style.display = show ? 'flex' : 'none';
-    touchSteerRightEl.style.display = show ? 'flex' : 'none';
-    touchBtnNitroLeftEl.style.display = show ? 'flex' : 'none';
-    touchPedalBrakeEl.style.display = show ? 'flex' : 'none';
-    touchPedalAccelEl.style.display = show ? 'flex' : 'none';
-    touchBtnCameraEl.style.display = show ? 'flex' : 'none';
+    // Turn button discs visible ONLY in 'pedals' mode
+    touchSteerLeftEl.style.display = (showControls && ctrlMode === 'pedals') ? 'flex' : 'none';
+    touchSteerRightEl.style.display = (showControls && ctrlMode === 'pedals') ? 'flex' : 'none';
+
+    // Steering Wheel container visible ONLY in 'wheel' mode
+    const wheelEl = document.getElementById('touch-steering-wheel-container');
+    if (wheelEl) wheelEl.style.display = (showControls && ctrlMode === 'wheel') ? 'flex' : 'none';
+
+    // Tilt Horizon Indicator visible ONLY in 'tilt' mode
+    const tiltEl = document.getElementById('touch-tilt-indicator');
+    if (tiltEl) tiltEl.style.display = (showControls && ctrlMode === 'tilt') ? 'flex' : 'none';
+
+    // Joystick container visible ONLY in 'joystick' mode
+    const joyEl = document.getElementById('touch-joystick-container');
+    if (joyEl) joyEl.style.display = (showControls && ctrlMode === 'joystick') ? 'flex' : 'none';
+
+    // Common action buttons (Gas, Brake, Nitro, Camera) visible for all mobile modes
+    touchBtnNitroLeftEl.style.display = showControls ? 'flex' : 'none';
+    touchPedalBrakeEl.style.display = showControls ? 'flex' : 'none';
+    touchPedalAccelEl.style.display = showControls ? 'flex' : 'none';
+    touchBtnCameraEl.style.display = showControls ? 'flex' : 'none';
   };
 
   window.updateTouchVis = updateVis;
@@ -3619,9 +4358,9 @@ function initTouchControls() {
   bindPress(touchPedalAccelEl, (v) => { touchPedalAccel = v; });
 
   const processEvent = (e) => {
-    if (ctrlMode !== 'pedals') return;
+    if (ctrlMode === 'keyboard') return;
 
-    // Reset all control states
+    // Reset touch pedal states
     touchSteerLeft = false;
     touchSteerRight = false;
     touchNitroLeft = false;
@@ -3629,14 +4368,15 @@ function initTouchControls() {
     touchPedalBrake = false;
     touchPedalAccel = false;
 
-    // Evaluate touches strictly against explicit control buttons. Empty space does NOTHING!
     for (let i = 0; i < e.touches.length; i++) {
       const t = e.touches[i];
       const elem = document.elementFromPoint(t.clientX, t.clientY);
       if (!elem) continue;
 
-      if (touchSteerLeftEl.contains(elem)) touchSteerLeft = true;
-      if (touchSteerRightEl.contains(elem)) touchSteerRight = true;
+      if (ctrlMode === 'pedals') {
+        if (touchSteerLeftEl.contains(elem)) touchSteerLeft = true;
+        if (touchSteerRightEl.contains(elem)) touchSteerRight = true;
+      }
       if (touchBtnNitroLeftEl.contains(elem)) touchNitroLeft = true;
       if (touchBtnNitroRightEl.contains(elem)) touchNitroRight = true;
       if (touchPedalBrakeEl.contains(elem)) touchPedalBrake = true;
@@ -3651,56 +4391,123 @@ function initTouchControls() {
   document.addEventListener('touchcancel', processEvent, opts);
 }
 
-// Patch steering/action to read keyboard or strictly touch buttons
+function initGyroscope() {
+  if (gyroActive) return;
+  const handleOrientation = (e) => {
+    if (ctrlMode !== 'tilt') return;
+    
+    // In landscape mode, beta or gamma corresponds to lateral tilt
+    let angle = 0;
+    const isLandscape = window.innerWidth > window.innerHeight;
+    if (isLandscape) {
+      angle = e.beta || 0; // Device rotated on side
+    } else {
+      angle = e.gamma || 0;
+    }
+    
+    // Apply calibration offset
+    angle -= gyroZeroOffset;
+    
+    // Deadzone of 2.5 degrees
+    if (Math.abs(angle) < 2.5) {
+      tiltSteer = 0;
+    } else {
+      // Normalize: 22 degrees gives full steer
+      const raw = Math.max(-1, Math.min(1, angle / 22));
+      tiltSteer = -raw * steerSensitivity;
+    }
+    
+    // Update visual bubble
+    const bubble = document.getElementById('tilt-bubble');
+    if (bubble) {
+      const pct = Math.max(10, Math.min(90, 50 + (angle / 25) * 40));
+      bubble.style.left = `${pct}%`;
+    }
+  };
+
+  if (window.DeviceOrientationEvent) {
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      window.__requestGyroPermission = () => {
+        DeviceOrientationEvent.requestPermission()
+          .then(res => {
+            if (res === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation);
+              gyroActive = true;
+            }
+          })
+          .catch(console.warn);
+      };
+    } else {
+      window.addEventListener('deviceorientation', handleOrientation);
+      gyroActive = true;
+    }
+  }
+}
+
+function calibrateGyroHorizon() {
+  // Sets current tilt as zero level
+  gyroZeroOffset = 0;
+  const once = (e) => {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    gyroZeroOffset = isLandscape ? (e.beta || 0) : (e.gamma || 0);
+    window.removeEventListener('deviceorientation', once);
+  };
+  window.addEventListener('deviceorientation', once, { once: true });
+}
+
+// Global steering getter resolving across all control modes
 const _origGetSteering = getSteering;
 getSteering = function() {
   if (ctrlMode === 'pedals') {
-    if (touchSteerLeft && !touchSteerRight) return 1;
-    if (touchSteerRight && !touchSteerLeft) return -1;
+    if (touchSteerLeft && !touchSteerRight) return 1 * steerSensitivity;
+    if (touchSteerRight && !touchSteerLeft) return -1 * steerSensitivity;
+  } else if (ctrlMode === 'wheel') {
+    // Return normalized wheel angle (target angle / maxRad)
+    const maxRad = Math.PI * 0.65;
+    return -(wheelAngle / maxRad) * steerSensitivity;
+  } else if (ctrlMode === 'tilt') {
+    return tiltSteer;
+  } else if (ctrlMode === 'joystick') {
+    return joystickSteer;
   }
   return _origGetSteering();
 };
+
 const _origAccel = isAccel;
 isAccel = function() {
-  if (ctrlMode === 'pedals' && touchPedalAccel) return true;
+  if (ctrlMode !== 'keyboard' && touchPedalAccel) return true;
   return _origAccel();
 };
+
 const _origHBrake = isHBrake;
 isHBrake = function() {
   return _origHBrake();
 };
+
 const _origNitro = isNitro;
 isNitro = function() {
-  if (ctrlMode === 'pedals' && (touchNitroLeft || touchNitroRight)) return true;
+  if (ctrlMode !== 'keyboard' && (touchNitroLeft || touchNitroRight)) return true;
   return _origNitro();
 };
+
 const _origBrake = isBrake;
 isBrake = function() {
-  if (ctrlMode === 'pedals' && touchPedalBrake) return true;
+  if (ctrlMode !== 'keyboard' && touchPedalBrake) return true;
   return _origBrake();
 };
-// ============================================================
-// RACE STATE
-// ============================================================
-let raceState = 'menu';
-let raceStarted = false;
-let raceFinished = false;
-let countdownValue = 3;
-let countdownElapsed = 0;
-let paused = false;
-let frameCount = 0;
-let fpsTimer = 0;
-let fpsValue = 60;
 
-// Apply a saved control mode at startup
+// Apply control mode & persist
 function applyCtrlMode(mode) {
   ctrlMode = mode;
   try { localStorage.setItem('turboCtrl', mode) } catch(e) {}
-  // Clear stale keyboard input when switching modes
   for (let k in keys) keys[k] = false;
   justPressed = {};
-  if (mode === 'pedals') {
-    if (!document.querySelector('#touch-steer-left')) initTouchControls();
+  
+  if (mode !== 'keyboard' && !document.querySelector('#touch-steer-left')) {
+    initTouchControls();
+  }
+  if (mode === 'tilt' && typeof window.__requestGyroPermission === 'function') {
+    window.__requestGyroPermission();
   }
   if (typeof window.updateTouchVis === 'function') {
     window.updateTouchVis();
@@ -3709,7 +4516,6 @@ function applyCtrlMode(mode) {
     setTouchRaceActive(raceState === 'racing' || raceStarted);
   }
 }
-// Apply saved mode after initTouchControls may have run
 applyCtrlMode(ctrlMode);
 document.addEventListener('touchstart', () => { if (!isTouchDevice) initTouchControls() }, { once: true, passive: true });
 
@@ -7499,10 +8305,17 @@ function checkCrash() {
     const dz = POS.z - tc.group.position.z;
     const d = Math.sqrt(dx*dx + dz*dz);
     if (d < 1.8) {
+      raceHadCollision = true;
       VEL.x *= 0.2;
       VEL.z = -5;
       health = 0;
       die();
+    } else if (d >= 1.8 && d < 2.9 && Math.abs(dz) < 2.5 && speed > 20 && !tc.nearMissRecorded) {
+      tc.nearMissRecorded = true;
+      raceNearMissCount++;
+      driftBonus += 250;
+      showArcadeToast('🔥 NEAR MISS! +250 PTS', '#ffd700');
+      checkAchievementProgress();
     }
   }
   // Rock obstacle collision (ruins/underground)
@@ -7771,7 +8584,18 @@ function die() {
   } else {
     genderMsg = '<p style="margin:5px 0;color:#ff4444;font-size:0.75rem;font-weight:700">MUJHE MAARO SAALA</p>';
     setTimeout(function() { try { playMemeAudio(); } catch(e) {} }, 100);
+  totalLifetimeDistance += Math.floor(distance);
+  try { localStorage.setItem('turboTotalDist', totalLifetimeDistance.toString()); } catch(e){}
+  
+  const dailyQ = getDailyChallenges();
+  for (const dq of dailyQ) {
+    if (dq.id === 'd_distance' && !dq.claimed) {
+      dq.current = Math.min(dq.goal, (dq.current || 0) + Math.floor(distance));
+    }
   }
+  saveDailyChallenges(dailyQ);
+  checkAchievementProgress();
+
   modalBox.innerHTML =
     `<h1 style="color:#ff4400;-webkit-text-fill-color:#ff4400">CRASHED!</h1>
      <p>You lost control</p>
@@ -7794,6 +8618,19 @@ function win() {
   VEL.z = 0;
   stopEngine();
   if (gameMode === 'endless') addScoreToLeaderboard();
+  
+  totalLifetimeDistance += Math.floor(distance);
+  try { localStorage.setItem('turboTotalDist', totalLifetimeDistance.toString()); } catch(e){}
+  
+  const dailyQWin = getDailyChallenges();
+  for (const dq of dailyQWin) {
+    if (dq.id === 'd_distance' && !dq.claimed) {
+      dq.current = Math.min(dq.goal, (dq.current || 0) + Math.floor(distance));
+    }
+  }
+  saveDailyChallenges(dailyQWin);
+  checkAchievementProgress();
+
   modalContainer.classList.add('show');
   modalBox.innerHTML =
     `<h1 style="color:#00ff44;-webkit-text-fill-color:#00ff44">DESTINATION REACHED!</h1>
@@ -8314,6 +9151,152 @@ window.showWatchAdModal = function() {
   }, 1000);
   
   window.__adInterval = interval;
+window.showAchievementsModal = function(defaultTab = 'daily') {
+  resetModalStyles();
+  const modalBox = document.getElementById('modal-box');
+  modalBox.style.maxWidth = '560px';
+  modalBox.style.width = '95%';
+  
+  const dailyQuests = getDailyChallenges();
+  let currentTab = defaultTab;
+  
+  const renderModalContent = () => {
+    let contentHtml = '';
+    if (currentTab === 'daily') {
+      contentHtml = `
+        <div style="font-size:0.58rem;color:#aaa;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+          <span>Complete today's challenges for massive Cash bonuses!</span>
+          <span style="color:#00d4ff;font-weight:700">Refreshes every 24h</span>
+        </div>
+        <div class="ach-list-grid">
+      `;
+      for (const q of dailyQuests) {
+        const pct = Math.min(100, Math.round((q.current / q.goal) * 100));
+        const isComplete = q.current >= q.goal;
+        contentHtml += `
+          <div class="ach-card ${isComplete ? 'unlocked' : ''} ${q.claimed ? 'claimed' : ''}">
+            <div class="ach-card-icon">${q.icon || '🎯'}</div>
+            <div class="ach-card-info">
+              <div class="ach-card-title">${q.title}</div>
+              <div class="ach-card-desc">${q.desc}</div>
+              <div style="display:flex;justify-content:space-between;font-size:0.5rem;color:#888;margin-bottom:3px">
+                <span>Progress: ${q.current.toLocaleString()} / ${q.goal.toLocaleString()} ${q.unit || ''}</span>
+                <span>${pct}%</span>
+              </div>
+              <div class="ach-prog-bar-bg">
+                <div class="ach-prog-bar-fill" style="width:${pct}%"></div>
+              </div>
+            </div>
+            <div style="text-align:right;min-width:90px">
+              <div class="ach-reward-badge">💵 +${q.reward.toLocaleString()}</div>
+              ${q.claimed ? `
+                <div class="ach-claimed-tag" style="margin-top:6px">CLAIMED ✓</div>
+              ` : isComplete ? `
+                <button class="ach-claim-btn" onclick="window.claimDailyQuestReward('${q.id}')" style="margin-top:6px">CLAIM</button>
+              ` : `
+                <div style="font-size:0.55rem;color:#666;margin-top:6px;font-weight:700">IN PROGRESS</div>
+              `}
+            </div>
+          </div>
+        `;
+      }
+      contentHtml += `</div>`;
+    } else {
+      contentHtml = `
+        <div style="font-size:0.58rem;color:#aaa;margin-bottom:10px">
+          Unlock lifetime racing trophies and earn huge milestone rewards!
+        </div>
+        <div class="ach-list-grid">
+      `;
+      for (const ach of ACHIEVEMENTS_DATA) {
+        const state = playerAchievements[ach.id] || { unlocked: false, claimed: false, current: 0 };
+        const pct = Math.min(100, Math.round(((state.current || 0) / ach.goal) * 100));
+        contentHtml += `
+          <div class="ach-card ${state.unlocked ? 'unlocked' : ''} ${state.claimed ? 'claimed' : ''}">
+            <div class="ach-card-icon">${ach.icon || '🏆'}</div>
+            <div class="ach-card-info">
+              <div class="ach-card-title">${ach.title}</div>
+              <div class="ach-card-desc">${ach.desc}</div>
+              <div style="display:flex;justify-content:space-between;font-size:0.5rem;color:#888;margin-bottom:3px">
+                <span>Progress: ${(state.current || 0).toLocaleString()} / ${ach.goal.toLocaleString()} ${ach.unit || ''}</span>
+                <span>${pct}%</span>
+              </div>
+              <div class="ach-prog-bar-bg">
+                <div class="ach-prog-bar-fill" style="width:${pct}%"></div>
+              </div>
+            </div>
+            <div style="text-align:right;min-width:90px">
+              <div class="ach-reward-badge">💵 +${ach.reward.toLocaleString()}</div>
+              ${state.claimed ? `
+                <div class="ach-claimed-tag" style="margin-top:6px">CLAIMED ✓</div>
+              ` : state.unlocked ? `
+                <button class="ach-claim-btn" onclick="window.claimAchievementReward('${ach.id}')" style="margin-top:6px">CLAIM</button>
+              ` : `
+                <div style="font-size:0.55rem;color:#666;margin-top:6px;font-weight:700">LOCKED 🔒</div>
+              `}
+            </div>
+          </div>
+        `;
+      }
+      contentHtml += `</div>`;
+    }
+
+    modalBox.innerHTML = `
+      <div class="mrm-header">
+        <h2>🏆 TROPHIES & DAILY QUESTS</h2>
+        <button class="mrm-close-btn" onclick="window.closeMRModal()">&times;</button>
+      </div>
+      <div class="ach-modal-tabs">
+        <button class="ach-tab-btn ${currentTab === 'daily' ? 'active' : ''}" id="tab-btn-daily">📅 DAILY QUESTS (3)</button>
+        <button class="ach-tab-btn ${currentTab === 'trophies' ? 'active' : ''}" id="tab-btn-trophies">🏆 LIFETIME TROPHIES (10)</button>
+      </div>
+      <div class="ach-modal-container">
+        ${contentHtml}
+      </div>
+    `;
+
+    document.getElementById('tab-btn-daily').onclick = () => { currentTab = 'daily'; renderModalContent(); };
+    document.getElementById('tab-btn-trophies').onclick = () => { currentTab = 'trophies'; renderModalContent(); };
+  };
+
+  renderModalContent();
+  document.getElementById('modal-container').classList.add('show');
+};
+
+window.claimDailyQuestReward = function(questId) {
+  const quests = getDailyChallenges();
+  const q = quests.find(x => x.id === questId);
+  if (!q || q.claimed || q.current < q.goal) return;
+  
+  q.claimed = true;
+  saveDailyChallenges(quests);
+  
+  // Award cash (scaled into heart tokens)
+  loadCoinCount();
+  coinCount += Math.round(q.reward / 15);
+  saveCoinCount();
+  updateDashboard();
+  
+  window.showAchievementsModal('daily');
+  alert(`Reward Claimed! +${q.reward.toLocaleString()} Cash added to your wallet.`);
+};
+
+window.claimAchievementReward = function(achId) {
+  const ach = ACHIEVEMENTS_DATA.find(x => x.id === achId);
+  if (!ach) return;
+  const state = playerAchievements[achId];
+  if (!state || !state.unlocked || state.claimed) return;
+  
+  state.claimed = true;
+  try { localStorage.setItem('turboAchievements', JSON.stringify(playerAchievements)); } catch(e) {}
+  
+  loadCoinCount();
+  coinCount += Math.round(ach.reward / 15);
+  saveCoinCount();
+  updateDashboard();
+  
+  window.showAchievementsModal('trophies');
+  alert(`🏆 Trophy Reward Claimed! +${ach.reward.toLocaleString()} Cash added to your wallet.`);
 };
 
 window.showSupportDevsModal = function() {
@@ -8507,6 +9490,9 @@ function updateMRMenu() {
     const btnDaily = document.getElementById('mr-btn-daily-rewards');
     if (btnDaily) btnDaily.onclick = window.showDailyRewardsModal;
     
+    const btnAch = document.getElementById('mr-btn-achievements');
+    if (btnAch) btnAch.onclick = () => window.showAchievementsModal('daily');
+
     const btnSupport = document.getElementById('mr-btn-support-devs');
     if (btnSupport) btnSupport.onclick = window.showSupportDevsModal;
     
@@ -8819,6 +9805,8 @@ function showSettingsModal() {
   resetModalStyles();
   const vol = Math.round((masterGain ? masterGain.gain.value : 0.5) * 100);
   let selCtrl = ctrlMode;
+  let selSens = Math.round(steerSensitivity * 100);
+  
   modalBox.innerHTML =
     `<h1>TURBO DRIVE</h1>
      <p style="font-size:0.5rem;color:#ff6688;letter-spacing:2px;margin-bottom:4px">LITTLE HEARTS</p>
@@ -8827,30 +9815,44 @@ function showSettingsModal() {
        <div style="font-size:0.6rem;color:#888;letter-spacing:1px;margin:8px 0 4px">MASTER VOLUME</div>
        <input type="range" id="vol-slider" min="0" max="100" value="${vol}" style="width:100%;accent-color:#ff4400">
        <div style="display:flex;justify-content:space-between;font-size:0.5rem;color:#555"><span>0%</span><span id="vol-pct">${vol}%</span><span>100%</span></div>
-       <div style="font-size:0.6rem;color:#888;letter-spacing:1px;margin:12px 0 4px">CONTROLS</div>
-       <div style="display:flex;gap:4px;margin-bottom:6px">
-         <button class="${selCtrl==='keyboard'?'primary':''}" id="btn-ctrl-kb" style="flex:1;font-size:0.55rem;padding:4px">⌨ KEYBOARD</button>
-         <button class="${selCtrl==='pedals'?'primary':''}" id="btn-ctrl-pedals" style="flex:1;font-size:0.55rem;padding:4px">🦶 PEDALS</button>
+       
+       <div style="font-size:0.6rem;color:#888;letter-spacing:1px;margin:12px 0 6px">CONTROL SCHEME</div>
+       <div class="ctrl-schemes-grid">
+         <button class="ctrl-scheme-btn ${selCtrl==='keyboard'?'primary':''}" id="btn-ctrl-kb">⌨ KEYBOARD</button>
+         <button class="ctrl-scheme-btn ${selCtrl==='pedals'?'primary':''}" id="btn-ctrl-pedals">🦶 TOUCH BUTTONS</button>
+         <button class="ctrl-scheme-btn ${selCtrl==='wheel'?'primary':''}" id="btn-ctrl-wheel">🏎️ STEERING WHEEL</button>
+         <button class="ctrl-scheme-btn ${selCtrl==='tilt'?'primary':''}" id="btn-ctrl-tilt">📱 TILT (GYRO)</button>
+         <button class="ctrl-scheme-btn ${selCtrl==='joystick'?'primary':''}" id="btn-ctrl-joy" style="grid-column: span 2">🕹️ ANALOG JOYSTICK</button>
        </div>
-        <div id="ctrl-desc" style="font-size:0.55rem;color:#aaa;line-height:1.8;font-family:Consolas,monospace">
-          ${selCtrl === 'keyboard'
-            ? 'W / ↑ = Accelerate<br>S / ↓ = Brake<br>A / → = Steer right<br>D / ← = Steer left<br>Space = Handbrake (drift)<br>Shift = Nitro<br>Esc = Pause<br>C = Camera'
-            : '<span style="color:#66ff66;font-size:0.65rem">🟢 GAS</span> — Accelerator pedal (right)<br><span style="color:#ff6666;font-size:0.65rem">🔴 BRAKE</span> — Brake pedal (left)<br>← Left half = Steer left &nbsp; → Right half = Steer right<br><span style="color:#00d4ff">DRIFT</span> button = Handbrake<br><span style="color:#ff4400">N₂O</span> button = Nitro'}
-        </div>
-        <div style="font-size:0.6rem;color:#888;letter-spacing:1px;margin:12px 0 4px">PROFILE</div>
-        <div style="display:flex;align-items:center;gap:10px;padding:8px 0">
-          <img id="settings-profile-pic" src="${getProfilePhoto()}" style="width:40px;height:40px;border-radius:50%;border:2px solid rgba(255,255,255,0.1);object-fit:cover;background:rgba(255,255,255,0.05)">
-          <div style="flex:1">
-            <div style="font-size:0.6rem;color:#aaa">${window.__firebaseUser ? (window.__firebaseUser.displayName || 'Player') : username}</div>
-            <button id="btn-change-photo" style="font-size:0.5rem;padding:4px 10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:rgba(255,255,255,0.6);cursor:pointer;font-family:inherit;letter-spacing:1px;margin-top:4px">CHANGE PHOTO</button>
-          </div>
-        </div>
-        <input type="file" id="profile-photo-input" accept="image/*" style="display:none">
-        <div style="font-size:0.6rem;color:#888;letter-spacing:1px;margin:12px 0 4px">VERSION</div>
-        <div style="font-size:0.55rem;color:#666;font-family:Consolas,monospace">Turbo Drive v2.0</div>
-      </div>
-      <button id="btn-ctrl-apply" class="primary" style="margin-top:10px">APPLY</button>
+       
+       <div style="font-size:0.6rem;color:#888;letter-spacing:1px;margin:10px 0 4px">STEERING SENSITIVITY</div>
+       <input type="range" id="sens-slider" min="50" max="200" value="${selSens}" style="width:100%;accent-color:#00d4ff">
+       <div style="display:flex;justify-content:space-between;font-size:0.5rem;color:#555"><span>50%</span><span id="sens-pct" style="color:#00d4ff">${selSens}%</span><span>200%</span></div>
+       
+       <div id="gyro-calibrate-sec" style="display:${selCtrl==='tilt'?'block':'none'};margin-top:8px">
+         <button id="btn-calibrate-gyro" style="width:100%;padding:6px;font-size:0.55rem;background:rgba(0,212,255,0.15);border:1px solid #00d4ff;border-radius:6px;color:#00d4ff;cursor:pointer;font-weight:700">
+           📐 CALIBRATE HORIZON (ZERO TILT)
+         </button>
+       </div>
+
+       <div id="ctrl-desc" style="font-size:0.55rem;color:#aaa;line-height:1.7;font-family:Consolas,monospace;margin-top:8px;background:rgba(0,0,0,0.3);padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.06)">
+       </div>
+
+       <div style="font-size:0.6rem;color:#888;letter-spacing:1px;margin:12px 0 4px">PROFILE</div>
+       <div style="display:flex;align-items:center;gap:10px;padding:6px 0">
+         <img id="settings-profile-pic" src="${getProfilePhoto()}" style="width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,0.1);object-fit:cover;background:rgba(255,255,255,0.05)">
+         <div style="flex:1">
+           <div style="font-size:0.6rem;color:#aaa">${window.__firebaseUser ? (window.__firebaseUser.displayName || 'Player') : username}</div>
+           <button id="btn-change-photo" style="font-size:0.5rem;padding:4px 10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:rgba(255,255,255,0.6);cursor:pointer;font-family:inherit;letter-spacing:1px;margin-top:4px">CHANGE PHOTO</button>
+         </div>
+       </div>
+       <input type="file" id="profile-photo-input" accept="image/*" style="display:none">
+       <div style="font-size:0.6rem;color:#888;letter-spacing:1px;margin:10px 0 4px">VERSION</div>
+       <div style="font-size:0.55rem;color:#666;font-family:Consolas,monospace">Turbo Drive v3.1</div>
+     </div>
+     <button id="btn-ctrl-apply" class="primary" style="margin-top:10px">SAVE & APPLY</button>
      <button id="btn-set-back" style="margin-top:6px">BACK</button>`;
+
   const slider = document.getElementById('vol-slider');
   const pct = document.getElementById('vol-pct');
   if (slider) slider.oninput = () => {
@@ -8859,24 +9861,67 @@ function showSettingsModal() {
     if (masterGain) masterGain.gain.value = v;
     try { localStorage.setItem('turboVol', v) } catch(e) {}
   };
+
+  const sensSlider = document.getElementById('sens-slider');
+  const sensPct = document.getElementById('sens-pct');
+  if (sensSlider) sensSlider.oninput = () => {
+    selSens = +sensSlider.value;
+    if (sensPct) sensPct.textContent = selSens + '%';
+  };
+
   const updateDesc = (mode) => {
-    document.getElementById('ctrl-desc').innerHTML = mode === 'keyboard'
-      ? 'W / ↑ = Accelerate<br>S / ↓ = Brake<br>A / → = Steer right<br>D / ← = Steer left<br>Space = Handbrake (drift)<br>Shift = Nitro<br>Esc = Pause<br>C = Camera'
-      : '<span style="color:#66ff66;font-size:0.65rem">🟢 GAS</span> — Accelerator pedal (right)<br><span style="color:#ff6666;font-size:0.65rem">🔴 BRAKE</span> — Brake pedal (left)<br>← Left half = Steer left &nbsp; → Right half = Steer right<br><span style="color:#00d4ff">DRIFT</span> button = Handbrake<br><span style="color:#ff4400">N₂O</span> button = Nitro';
+    const descEl = document.getElementById('ctrl-desc');
+    const calSec = document.getElementById('gyro-calibrate-sec');
+    if (calSec) calSec.style.display = (mode === 'tilt' ? 'block' : 'none');
+    
+    if (!descEl) return;
+    if (mode === 'keyboard') {
+      descEl.innerHTML = 'W / ↑ = Accelerate<br>S / ↓ = Brake<br>A / → = Steer right<br>D / ← = Steer left<br>Space = Drift &nbsp; Shift = Nitro &nbsp; C = Camera';
+    } else if (mode === 'pedals') {
+      descEl.innerHTML = '<span style="color:#00d4ff">Left/Right Discs</span> = Steer<br><span style="color:#66ff66">GAS Pedal</span> = Accelerate &nbsp; <span style="color:#ff6666">BRAKE Pedal</span> = Brake<br><span style="color:#ff4400">NOS</span> = Nitro Boost';
+    } else if (mode === 'wheel') {
+      descEl.innerHTML = '<span style="color:#ffd700">🏎️ Virtual Wheel</span> = Touch & Drag wheel to steer smoothly<br><span style="color:#66ff66">GAS / BRAKE</span> pedals on right<br><span style="color:#ff4400">NOS</span> = Nitro Boost';
+    } else if (mode === 'tilt') {
+      descEl.innerHTML = '<span style="color:#00d4ff">📱 Gyroscope Tilt</span> = Physically tilt phone left/right to steer<br><span style="color:#66ff66">GAS / BRAKE</span> pedals on right<br>Use Calibrate Horizon to set neutral resting position.';
+    } else if (mode === 'joystick') {
+      descEl.innerHTML = '<span style="color:#ff4400">🕹️ Virtual Joystick</span> = Drag thumbstick horizontally to steer with analog precision.';
+    }
   };
-  document.getElementById('btn-ctrl-kb').onclick = () => {
-    selCtrl = 'keyboard';
-    document.getElementById('btn-ctrl-kb').className = 'primary';
-    document.getElementById('btn-ctrl-pedals').className = '';
-    updateDesc('keyboard');
+  updateDesc(selCtrl);
+
+  const btnKb = document.getElementById('btn-ctrl-kb');
+  const btnPedals = document.getElementById('btn-ctrl-pedals');
+  const btnWheel = document.getElementById('btn-ctrl-wheel');
+  const btnTilt = document.getElementById('btn-ctrl-tilt');
+  const btnJoy = document.getElementById('btn-ctrl-joy');
+
+  const setBtnActive = (btn) => {
+    [btnKb, btnPedals, btnWheel, btnTilt, btnJoy].forEach(b => { if (b) b.classList.remove('primary'); });
+    if (btn) btn.classList.add('primary');
   };
-  document.getElementById('btn-ctrl-pedals').onclick = () => {
-    selCtrl = 'pedals';
-    document.getElementById('btn-ctrl-pedals').className = 'primary';
-    document.getElementById('btn-ctrl-kb').className = '';
-    updateDesc('pedals');
+
+  if (btnKb) btnKb.onclick = () => { selCtrl = 'keyboard'; setBtnActive(btnKb); updateDesc('keyboard'); };
+  if (btnPedals) btnPedals.onclick = () => { selCtrl = 'pedals'; setBtnActive(btnPedals); updateDesc('pedals'); };
+  if (btnWheel) btnWheel.onclick = () => { selCtrl = 'wheel'; setBtnActive(btnWheel); updateDesc('wheel'); };
+  if (btnTilt) btnTilt.onclick = () => { 
+    selCtrl = 'tilt'; 
+    setBtnActive(btnTilt); 
+    updateDesc('tilt');
+    if (typeof window.__requestGyroPermission === 'function') window.__requestGyroPermission();
   };
+  if (btnJoy) btnJoy.onclick = () => { selCtrl = 'joystick'; setBtnActive(btnJoy); updateDesc('joystick'); };
+
+  const btnCalibrate = document.getElementById('btn-calibrate-gyro');
+  if (btnCalibrate) {
+    btnCalibrate.onclick = () => {
+      calibrateGyroHorizon();
+      alert("Horizon level calibrated! Current device angle set to center.");
+    };
+  }
+
   document.getElementById('btn-ctrl-apply').onclick = () => {
+    steerSensitivity = selSens / 100;
+    try { localStorage.setItem('turboSens', steerSensitivity.toString()); } catch(e) {}
     applyCtrlMode(selCtrl);
     modalContainer.classList.remove('show');
     showMenuContent();
@@ -9152,6 +10197,15 @@ function startRace() {
   health = 100; distance = 0; score = 0; driftBonus = 0;
   coinCount = 0;
   gameTimer = 0;
+  raceMaxSpeed = 0;
+  raceNearMissCount = 0;
+  raceCleanDist = 0;
+  raceHadCollision = false;
+  raceNightDist = 0;
+  raceStormDist = 0;
+  wheelAngle = 0;
+  targetWheelAngle = 0;
+  joystickSteer = 0;
   if (document.getElementById('coin-count')) document.getElementById('coin-count').textContent = '0';
   isDead = false; crashCooldown = 0;
 
@@ -9939,42 +10993,147 @@ function drawHUDMinimap() {
   const h = canvas.height;
   ctx.clearRect(0, 0, w, h);
   
-  // Draw background
-  ctx.fillStyle = 'rgba(10, 12, 22, 0.4)';
+  // Background gradient with radar depth
+  const bgGrad = ctx.createRadialGradient(w/2, h/2, 10, w/2, h/2, h/1.4);
+  bgGrad.addColorStop(0, 'rgba(12, 22, 40, 0.9)');
+  bgGrad.addColorStop(1, 'rgba(5, 8, 16, 0.98)');
+  ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, w, h);
   
-  // Draw road border lines and lane divider dashes
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+  // Radar Range Circular Grid Lines
+  ctx.strokeStyle = 'rgba(0, 212, 255, 0.12)';
   ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.arc(w/2, h * 0.72, 35, 0, Math.PI * 2);
+  ctx.arc(w/2, h * 0.72, 70, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Radar animated sweep beam
+  const sweepAngle = (Date.now() * 0.003) % (Math.PI * 2);
+  ctx.save();
+  ctx.translate(w/2, h * 0.72);
+  ctx.rotate(sweepAngle);
+  const sweepGrad = ctx.createLinearGradient(0, 0, 50, 0);
+  sweepGrad.addColorStop(0, 'rgba(0, 212, 255, 0.35)');
+  sweepGrad.addColorStop(1, 'rgba(0, 212, 255, 0)');
+  ctx.fillStyle = sweepGrad;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.arc(0, 0, 70, -0.3, 0.3);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // Road Lanes (Highway dashed lines)
   const laneWidth = w / 3;
+  ctx.strokeStyle = 'rgba(0, 212, 255, 0.22)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 4]);
   ctx.beginPath();
   ctx.moveTo(laneWidth, 0); ctx.lineTo(laneWidth, h);
   ctx.moveTo(laneWidth * 2, 0); ctx.lineTo(laneWidth * 2, h);
   ctx.stroke();
-  
-  // Draw player position as a green triangle (inverted X to match camera orientation)
-  const playerX = w / 2 - (POS.x / 7.5) * w;
-  const playerY = h * 0.75;
-  
-  ctx.fillStyle = '#00ff44';
+  ctx.setLineDash([]);
+
+  // Road Outer Boundary
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+  ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(playerX, playerY - 5);
-  ctx.lineTo(playerX - 4, playerY + 4);
-  ctx.lineTo(playerX + 4, playerY + 4);
-  ctx.closePath();
-  ctx.fill();
-  
-  // Draw active traffic cars as red rectangles (inverted X to match camera orientation)
-  ctx.fillStyle = '#ff3333';
+  ctx.moveTo(3, 0); ctx.lineTo(3, h);
+  ctx.moveTo(w - 3, 0); ctx.lineTo(w - 3, h);
+  ctx.stroke();
+
+  const playerX = Math.max(8, Math.min(w - 8, w / 2 - (POS.x / 7.5) * (w * 0.85)));
+  const playerY = h * 0.72;
+
+  // Draw Collectible Hearts on radar
+  if (typeof coinPool !== 'undefined') {
+    ctx.fillStyle = '#ff1493';
+    ctx.shadowColor = '#ff1493';
+    ctx.shadowBlur = 6;
+    for (const c of coinPool) {
+      if (!c.active) continue;
+      const cX = w / 2 - (c.x / 7.5) * (w * 0.85);
+      const relZ = c.z - POS.z;
+      if (relZ > -15 && relZ < 150) {
+        const cY = playerY - (relZ / 150) * playerY;
+        ctx.beginPath();
+        ctx.arc(cX, cY, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.shadowBlur = 0;
+  }
+
+  // Draw Traffic cars and detect proximity hazard
+  let hazardDetected = false;
   for (const tc of trafficCars) {
     if (!tc.active) continue;
-    const tX = w / 2 - (tc.group.position.x / 7.5) * w;
+    const tX = w / 2 - (tc.group.position.x / 7.5) * (w * 0.85);
     const relZ = tc.group.position.z - POS.z;
-    if (relZ > -20 && relZ < 160) {
+    const dx = Math.abs(POS.x - tc.group.position.x);
+    
+    if (relZ > 0 && relZ < 22 && dx < 2.2) {
+      hazardDetected = true;
+    }
+
+    if (relZ > -25 && relZ < 160) {
       const tY = playerY - (relZ / 160) * playerY;
-      ctx.fillRect(tX - 2.5, tY - 4, 5, 8);
+      
+      const isApproaching = tc.speed > 25;
+      ctx.fillStyle = isApproaching ? '#ffaa00' : '#ff2244';
+      ctx.shadowColor = isApproaching ? '#ffaa00' : '#ff2244';
+      ctx.shadowBlur = 5;
+      
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(tX - 2.5, tY - 4, 5, 8, 2);
+      } else {
+        ctx.rect(tX - 2.5, tY - 4, 5, 8);
+      }
+      ctx.fill();
+      ctx.shadowBlur = 0;
     }
   }
+
+  // Proximity Hazard Alert
+  if (hazardDetected && Math.sin(Date.now() * 0.02) > 0) {
+    ctx.strokeStyle = '#ff0033';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(playerX, playerY - 10, 18, -Math.PI * 0.8, -Math.PI * 0.2);
+    ctx.stroke();
+    
+    ctx.fillStyle = '#ff0033';
+    ctx.font = 'bold 7px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('HAZARD', w/2, 14);
+  }
+
+  // Draw Player Car as rotating Neon Arrow
+  ctx.save();
+  ctx.translate(playerX, playerY);
+  ctx.rotate(-rot * 2);
+  
+  // Pulse halo
+  ctx.fillStyle = 'rgba(0, 255, 136, 0.25)';
+  ctx.beginPath();
+  ctx.arc(0, 0, 7, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Arrow
+  ctx.fillStyle = '#00ff88';
+  ctx.shadowColor = '#00ff88';
+  ctx.shadowBlur = 8;
+  ctx.beginPath();
+  ctx.moveTo(0, -6);
+  ctx.lineTo(-4.5, 4.5);
+  ctx.lineTo(0, 2.5);
+  ctx.lineTo(4.5, 4.5);
+  ctx.closePath();
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.restore();
 }
 
 function vdCycle(dir) {
@@ -10139,8 +11298,24 @@ function update(dt) {
     if (nitroActive && Math.random() < 0.5) spawnNitroFlame();
     if (Math.abs(POS.x) > HW.WIDTH / 2 + HW.SHOULDER && speed > 30 && Math.random() < 0.2) spawnSmoke(POS.x, POS.y, POS.z - 1, 0, -1, 0.5);
 
+    // Drift Combo notifications
+    if (isDrifting && driftBonus > 400) {
+      const comboLvl = Math.floor(driftBonus / 500);
+      if (comboLvl > (window.__lastDriftCombo || 0)) {
+        window.__lastDriftCombo = comboLvl;
+        showArcadeToast(`🌪️ DRIFT COMBO x${comboLvl + 1}! +${comboLvl * 500} PTS`, '#00d4ff');
+      }
+    } else if (!isDrifting) {
+      window.__lastDriftCombo = 0;
+    }
+
     crashCooldown = Math.max(0, crashCooldown - dt);
   }
+
+  // Smooth virtual steering wheel rotation
+  wheelAngle += (targetWheelAngle - wheelAngle) * Math.min(1, dt * 25);
+  const wheelEl = document.getElementById('touch-steering-wheel-graphic');
+  if (wheelEl) wheelEl.style.transform = `rotate(${wheelAngle * (180 / Math.PI)}deg)`;
 
   updateCamera(dt);
   updateTraffic(dt);
@@ -10148,6 +11323,14 @@ function update(dt) {
   updateHighwaySystem();
 
   const kmh = speed * 3.6;
+  if (kmh > raceMaxSpeed) raceMaxSpeed = kmh;
+  if (raceStarted && !raceHadCollision) raceCleanDist = distance;
+  if (raceStarted && (weather === 'rain' || weather === 'heavyRain' || weather === 'storm')) {
+    raceStormDist += speed * dt;
+  }
+  if (raceStarted) {
+    checkAchievementProgress();
+  }
   
   // Calculate simulated RPM based on speed and gear
   const gearMaxSpeeds = [0, 8, 18, 30, 40, 48, 200];
